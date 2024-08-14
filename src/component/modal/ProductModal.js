@@ -5,7 +5,7 @@ import axios from "axios";
 
 //internal import
 import Price from "@component/common/Price";
-import { notifyError } from "@utils/toast";
+import { notifyError, notifySuccess } from "@utils/toast";
 import useAddToCart from "@hooks/useAddToCart";
 import MainModal from "@component/modal/MainModal";
 import Discount from "@component/common/Discount";
@@ -22,56 +22,60 @@ const ProductModal = ({
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const { setIsLoading, isLoading } = useContext(SidebarContext);
-  const { handleAddItem, setItem, item } = useAddToCart();
+  const { handleAddItem, setItem, item, cartItems } = useAddToCart();
   const [value, setValue] = useState("");
   const [price, setPrice] = useState(0);
   const [originalPrice, setOriginalPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
 
-  const handleAddToCart = async () => {
-    if (product.quantity < 1) return notifyError("Insufficient stock!");
+  // const handleAddToCart = async () => {
+  //   if (product.quantity < 1) return notifyError("Insufficient stock!");
 
-    const { categories, description, ...updatedProduct } = product;
+  //   const { categories, description, ...updatedProduct } = product;
 
-    console.log("product info in modal", product);
+  //   console.log("product info in modal", product);
 
+  //   const newItem = {
+  //     ...updatedProduct,
+  //     title: product?.name,
+  //     id: product._id,
+  //     price: product.price,
+  //   };
+
+  //   try {
+  //     const response = await axios.post(`${apiURL}/cart/add`, {
+  //       items: [{ productId: product._id, quantity: item }],
+  //     });
+
+  //     if (response.status === 200) {
+  //       handleAddItem(newItem);
+  //       notifySuccess("Item added to cart successfully!");
+  //     } else {
+  //       notifyError("Failed to add item to cart!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error adding item to cart:", error);
+  //     notifyError("Error adding item to cart!");
+  //   }
+  // };
+
+  const handleAddToCart = () => {
+    if (product.quantity < 1) return notifyError("Insufficent stock!");
+    const { categories, descritption, ...updatedProduct } = product;
     const newItem = {
       ...updatedProduct,
       title: product?.name,
-      id: product.id,
+      id: product._id,
       price: product.price,
+      quantity: product.quantity,
     };
-
-    try {
-      const response = await axios.put(`${apiURL}/cart/add`, {
-        productId: product.id,
-        quantity: item,
-      });
-
-      if (response.status === 200) {
-        handleAddItem(newItem);
-        notifySuccess("Item added to cart successfully!");
-      } else {
-        notifyError("Failed to add item to cart!");
-      }
-    } catch (error) {
-      console.error("Error adding item to cart:", error);
-      notifyError("Error adding item to cart!");
-    }
+    handleAddItem(newItem);
+    // notifySuccess("Item added to cart!");
   };
-
-  // const handleMoreInfo = (slug) => {
-  //   setModalOpen(false);
-
-  //   router.push(`/product/${slug}`);
-  //   setIsLoading(!isLoading);
-  //   handleLogEvent("product", `opened ${slug} product details`);
-  // };
-
   return (
     <>
       <MainModal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <div className="inline-block overflow-y-auto h-full align-middle transition-all transform bg-white shadow-xl rounded-2xl font-primaryRegular">
+        <div className="inline-block overflow-y-auto h-full align-middle transition-all transform bg-white shadow-xl rounded-2xl font-primaryRegular px-10 py-3">
           <div className="font-primarySemibold my-4">Product Details</div>
           <div className="flex flex-col lg:flex-row md:flex-row w-full max-w-4xl overflow-hidden">
             <div

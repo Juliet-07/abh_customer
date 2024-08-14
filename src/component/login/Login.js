@@ -14,9 +14,9 @@ const Login = ({ setShowResetPassword, setModalOpen }) => {
   const router = useRouter();
   const { redirect } = router.query;
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const [loading, setLoading] = useState(false);
 
   const { handleSubmit } = useForm();
-  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     email: "",
@@ -30,6 +30,7 @@ const Login = ({ setShowResetPassword, setModalOpen }) => {
   };
 
   const handleLoginValidation = async () => {
+    setLoading(true);
     try {
       const user = await axios.post(`${apiURL}/user/login`, loginDetails);
       console.log(user, "confirm here");

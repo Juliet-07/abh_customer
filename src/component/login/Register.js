@@ -7,16 +7,18 @@ import Error from "@component/form/Error";
 import InputArea from "@component/form/InputArea";
 import useLoginSubmit from "@hooks/useLoginSubmit";
 import Label from "@component/form/Label";
+import { notifySuccess } from "@utils/toast";
+import { useRouter } from "next/router";
 
 const Register = ({ setShowResetPassword, setModalOpen }) => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const { handleSubmit, submitHandler, register1, errors } =
     useLoginSubmit(setModalOpen);
 
   // const { handleSubmit } = useForm();
-
-  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     firstName: "",
@@ -36,17 +38,17 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
   };
 
   const handleRegisteration = () => {
+    setLoading(true);
     try {
       axios
         .post(`${apiURL}/user`, register)
-        .then((res) => res.json())
+        // .then((res) => res.json())
         .then((user) => {
           console.log(user, "confirm here");
-          // let userDetail = JSON.ify(user.data);
-          // localStorage.setItem("userInfo", userDetail);
-          // if (user.message === "User Authenticated Successfully") {
-          //   navigate("/applications");
-          // }
+          if (user.status === 201) {
+            notifySuccess("User Successfully created");
+            // router.push("/Login");
+          }
           // if (user.status === "99") {
           //   alert(user.message);
           //   navigate("/");
@@ -79,7 +81,7 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type="text"
                 placeholder="First Name"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none focus:bg-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">
@@ -100,7 +102,7 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type="text"
                 placeholder="Last Name"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none focus:bg-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">
@@ -120,7 +122,7 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type="email"
                 placeholder="Email"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none focus:bg-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">
@@ -141,7 +143,7 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type="text"
                 placeholder="Phone Number"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none focus:bg-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">
@@ -162,7 +164,7 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type="password"
                 placeholder="Password"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none focus:bg-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">

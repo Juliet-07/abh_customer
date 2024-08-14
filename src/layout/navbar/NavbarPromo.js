@@ -102,7 +102,7 @@ const NavbarPromo = () => {
                 >
                   FAQ
                 </Link>
-                <Link
+                {/* <Link
                   onClick={() => setIsLoading(!isLoading)}
                   href="/privacy-policy"
                   className="font-serif mx-4 py-2 text-sm font-medium hover:text-[#8DCB90]"
@@ -115,7 +115,7 @@ const NavbarPromo = () => {
                   className="font-serif mx-4 py-2 text-sm font-medium hover:text-[#8DCB90]"
                 >
                   Terms & Conditions
-                </Link>
+                </Link> */}
                 <Link
                   onClick={() => setIsLoading(!isLoading)}
                   href="/terms-and-conditions"

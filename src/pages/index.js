@@ -67,10 +67,10 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
     }
     const getProducts = () => {
       axios
-        .get(`${apiURL}/products/all`)
+        .get(`${apiURL}/products/list/retail`)
         .then((response) => {
-          console.log(response.data.data.data);
-          setProducts(response.data.data.data);
+          console.log(response.data.data.products);
+          setProducts(response.data.data.products);
         })
         .catch((error) => {
           console.error("Error fetching vendors:", error);
@@ -189,12 +189,11 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
                 </Link>
                 <div className="block md:hidden">
                   <Link href="/all-products">
-                  <button className="p-2 text-white font-primaryMedium bg-[#4CBD6B] rounded">
-                    View all
-                  </button>
-                </Link>
+                    <button className="p-2 text-white font-primaryMedium bg-[#4CBD6B] rounded">
+                      View all
+                    </button>
+                  </Link>
                 </div>
-                
               </div>
 
               {/* <div className="mb-10 flex justify-center">

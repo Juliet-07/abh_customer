@@ -111,7 +111,7 @@ const ProductCard = ({ product, attributes }) => {
         </div>
         <div
           onClick={() => {
-            handleModalOpen(!modalOpen, product.id);
+            handleModalOpen(!modalOpen, product._id);
             handleLogEvent("product", `opened ${product?.name} product modal`);
           }}
           className="relative flex justify-center cursor-pointer pt-2 w-full h-44"
@@ -167,7 +167,7 @@ const ProductCard = ({ product, attributes }) => {
 
             <div
               // onClick={() => handleAddItem(product)}
-              onClick={() => handleModalOpen(!modalOpen, product.id)}
+              onClick={() => handleModalOpen(!modalOpen, product._id)}
               aria-label="cart"
               className="h-9 w-9 flex items-center justify-center border border-gray-200 rounded text-emerald-500 hover:border-emerald-500 hover:bg-emerald-500 hover:text-white transition-all"
             >

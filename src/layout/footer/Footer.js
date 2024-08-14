@@ -31,7 +31,7 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-7 xl:grid-cols-12 gap-5 sm:gap-9 lg:gap-11 xl:gap-7 py-10 lg:py-16 justify-between">
           {/* Company */}
           <div className="pb-3.5 sm:pb-0 col-span-1 md:col-span-2 lg:col-span-3">
-            <h3 className="text-md lg:leading-7 font-medium mb-4 sm:mb-5 lg:mb-6 pb-0.5">
+            <h3 className="text-md lg:leading-7 font-semibold mb-4 sm:mb-5 lg:mb-6 pb-0.5">
               Company
             </h3>
             <ul className="text-sm flex flex-col space-y-3">
@@ -64,7 +64,15 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 inline-block w-full hover:text-emerald-500"
                 >
-                  Latest News
+                  Privacy Policy
+                </Link>
+              </li>
+              <li className="flex items-baseline">
+                <Link
+                  href="#"
+                  className="text-gray-600 inline-block w-full hover:text-emerald-500"
+                >
+                  Terms & Conditions
                 </Link>
               </li>
             </ul>
@@ -72,8 +80,8 @@ const Footer = () => {
 
           {/* Latest News */}
           <div className="pb-3.5 sm:pb-0 col-span-1 md:col-span-2 lg:col-span-3">
-            <h3 className="text-md lg:leading-7 font-medium mb-4 sm:mb-5 lg:mb-6 pb-0.5">
-              Latest News
+            <h3 className="text-md lg:leading-7 font-semibold mb-4 sm:mb-5 lg:mb-6 pb-0.5">
+              Category
             </h3>
             <ul className="text-sm lg:text-15px flex flex-col space-y-3">
               <li className="flex items-baseline">
@@ -81,7 +89,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 inline-block w-full hover:text-emerald-500"
                 >
-                  Fish & Meat
+                  Fashion and Apparel
                 </Link>
               </li>
 
@@ -90,7 +98,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 inline-block w-full hover:text-emerald-500"
                 >
-                  Soft Drink
+                  Electronics
                 </Link>
               </li>
               <li className="flex items-baseline">
@@ -98,7 +106,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 inline-block w-full hover:text-emerald-500"
                 >
-                  Milk & Diary
+                  Grocery & Gourmet
                 </Link>
               </li>
               <li className="flex items-baseline">
@@ -106,7 +114,23 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 inline-block w-full hover:text-emerald-500"
                 >
-                  Beauty & Health
+                  Home and Kitchen
+                </Link>
+              </li>
+              <li className="flex items-baseline">
+                <Link
+                  href="#"
+                  className="text-gray-600 inline-block w-full hover:text-emerald-500"
+                >
+                  Kids Care
+                </Link>
+              </li>
+              <li className="flex items-baseline">
+                <Link
+                  href="#"
+                  className="text-gray-600 inline-block w-full hover:text-emerald-500"
+                >
+                  Sport and Outdoor
                 </Link>
               </li>
             </ul>
@@ -114,7 +138,7 @@ const Footer = () => {
 
           {/* My Account */}
           <div className="pb-3.5 sm:pb-0 col-span-1 md:col-span-2 lg:col-span-3">
-            <h3 className="text-md lg:leading-7 font-medium mb-4 sm:mb-5 lg:mb-6 pb-0.5">
+            <h3 className="text-md lg:leading-7 font-semibold mb-4 sm:mb-5 lg:mb-6 pb-0.5">
               My Account
             </h3>
             <ul className="text-sm lg:text-15px flex flex-col space-y-3">
@@ -174,9 +198,9 @@ const Footer = () => {
             <p className="leading-7 font-sans text-sm text-gray-600 mt-3">
               987 Andre Plain Suite High Street 838, Lake Hestertown, USA
               <br />
-              <span>Tel : 02.356.1666</span>
+              <span>Tel: 02.356.1666</span>
               <br />
-              <span>Email : ccruidk@test.com</span>
+              <span>Email: ccruidk@test.com</span>
             </p>
           </div>
         </div>

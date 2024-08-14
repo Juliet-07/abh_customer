@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { CardElement } from "@stripe/react-stripe-js";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import {
 } from "react-icons/io5";
 import { ImCreditCard } from "react-icons/im";
 import useTranslation from "next-translate/useTranslation";
+import { useCart } from "react-use-cart";
 
 //internal import
 
@@ -22,11 +23,15 @@ import InputArea from "@component/form/InputArea";
 import useGetSetting from "@hooks/useGetSetting";
 import InputShipping from "@component/form/InputShipping";
 import InputPayment from "@component/form/InputPayment";
-import useCheckoutSubmit from "@hooks/useCheckoutSubmit";
+// import useCheckoutSubmit from "@hooks/useCheckoutSubmit";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 import SettingServices from "@services/SettingServices";
 
 const Checkout = () => {
+  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const { items, cartTotal, currency } = useCart();
+  // const { handleSubmit, submitHandler, error, isEmpty, isCheckoutSubmit } =
+  //   useCheckoutSubmit();
   // const { t } = useTranslation();
   // const { storeCustomizationSetting } = useGetSetting();
   // const { showingTranslateValue } = useUtilsFunction();
@@ -64,6 +69,30 @@ const Checkout = () => {
 
   // console.log("storeCustomizationSetting", storeCustomizationSetting);
 
+  // useEffect(() => {
+  //   // Function to call addToCart API
+  //   const sendCartDataToBackend = async () => {
+  //     try {
+  //       const response = await axios.post(`${apiURL}/cart/add`, { cartItems });
+  //       if (response.status === 200) {
+  //         console.log("Cart data successfully sent to backend:", response.data);
+  //       } else {
+  //         console.error("Failed to send cart data:", response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error sending cart data to backend:", error);
+  //     }
+  //   };
+
+  //   // Call the function when the component mounts or when cartItems change
+  //   if (cartItems.length > 0) {
+  //     sendCartDataToBackend();
+  //   }
+  // }, [cartItems]);
+  // Calculate shipping cost, discount, and total cost
+  const shippingCost = 0.0; // Update this value based on your logic
+  const discount = 0.0; // Update this value based on your logic
+  const totalCost = cartTotal + shippingCost - discount;
   return (
     <>
       <Layout title="Checkout" description="this is checkout page">
@@ -308,12 +337,12 @@ const Checkout = () => {
                   Order Summary
                 </h2>
 
-                <div className="overflow-y-scroll flex-grow scrollbar-hide w-full max-h-64 bg-gray-50 block">
-                  {/* {items.map((item) => (
+                {/* <div className="overflow-y-scroll flex-grow scrollbar-hide w-full max-h-64 bg-gray-50 block">
+                  {items.map((item) => (
                     <CartItem key={item.id} item={item} currency={currency} />
-                  ))} */}
+                  ))}
 
-                  {/* {isEmpty && ( */}
+                  {isEmpty && (
                   <div className="text-center py-10">
                     <span className="flex justify-center my-auto text-gray-500 font-semibold text-4xl">
                       <IoBagHandle />
@@ -322,22 +351,38 @@ const Checkout = () => {
                       No Item Added Yet!
                     </h2>
                   </div>
-                  {/* )} */}
-                </div>
+                  )}
+                </div> */}
 
+                <div className="overflow-y-scroll flex-grow scrollbar-hide w-full max-h-64 bg-gray-50 block">
+                  {items.length > 0 ? (
+                    items.map((item) => (
+                      <CartItem key={item.id} item={item} currency={currency} />
+                    ))
+                  ) : (
+                    <div className="text-center py-10">
+                      <span className="flex justify-center my-auto text-gray-500 font-semibold text-4xl">
+                        <IoBagHandle />
+                      </span>
+                      <h2 className="font-medium font-serif text-sm pt-2 text-gray-600">
+                        No Item Added Yet!
+                      </h2>
+                    </div>
+                  )}
+                </div>
                 <div className="flex items-center py-2 text-sm w-full font-semibold text-gray-500 last:border-b-0 last:text-base last:pb-0">
                   Subtotal
                   <span className="ml-auto flex-shrink-0 text-gray-800 font-bold">
-                    {/* {currency} */} 48.12
-                    {/* {cartTotal?.toFixed(2)} */}
+                    {currency} 
+                    {cartTotal?.toFixed(2)}
                   </span>
                 </div>
 
                 <div className="flex items-center py-2 text-sm w-full font-semibold text-gray-500 last:border-b-0 last:text-base last:pb-0">
                   Shipping Cost
                   <span className="ml-auto flex-shrink-0 text-gray-800 font-bold">
-                    {/* {currency} */} 0.00
-                    {/* {shippingCost?.toFixed(2)} */}
+                    {currency}
+                    {shippingCost?.toFixed(2)}
                   </span>
                 </div>
 
@@ -352,8 +397,8 @@ const Checkout = () => {
                   <div className="flex items-center font-bold font-serif justify-between pt-5 text-sm uppercase">
                     Total Cost
                     <span className="font-serif font-extrabold text-lg">
-                      {/* {currency} */} 48.12
-                      {/* {parseFloat(total).toFixed(2)} */}
+                      {currency}
+                      {parseFloat(totalCost).toFixed(2)}
                     </span>
                   </div>
                 </div>
