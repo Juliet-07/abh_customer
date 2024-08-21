@@ -14,6 +14,7 @@ import {
   FiShoppingCart,
   FiTruck,
 } from "react-icons/fi";
+import axios from "axios";
 
 //internal import
 import Layout from "@layout/Layout";
@@ -27,34 +28,17 @@ import useGetSetting from "@hooks/useGetSetting";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 
 const Dashboard = ({ title, description, children }) => {
+  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const token = localStorage.getItem("abhUserInfo");
   const router = useRouter();
   const {
     dispatch,
     state: { userInfo },
   } = useContext(UserContext);
   const { isLoading, setIsLoading, currentPage } = useContext(SidebarContext);
-
-  const { storeCustomizationSetting } = useGetSetting();
-  const { showingTranslateValue } = useUtilsFunction();
-
-  const [data, setData] = useState({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    OrderServices.getOrderCustomer({
-      page: currentPage,
-      limit: 8,
-    })
-      .then((res) => {
-        setData(res);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        setError(err.message);
-      });
-  }, [currentPage]);
+  const [orders, setOrders] = useState([]);
 
   const handleLogOut = () => {
     dispatch({ type: "USER_LOGOUT" });
@@ -62,13 +46,6 @@ const Dashboard = ({ title, description, children }) => {
     Cookies.remove("couponInfo");
     router.push("/");
   };
-
-  // useEffect(() => {
-  //   setIsLoading(false);
-  //   if (!userInfo) {
-  //     router.push("/");
-  //   }
-  // }, [userInfo]);
 
   const userSidebar = [
     {
@@ -93,6 +70,28 @@ const Dashboard = ({ title, description, children }) => {
     },
   ];
 
+  useEffect(() => {
+    const getMyOrders = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${apiURL}/orders/user/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+        console.log(response.data.data.data, "Orders");
+        setOrders(response.data.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setError("Failed to fetch orders");
+        setLoading(false);
+      }
+    };
+
+    getMyOrders();
+  }, [router]);
   return (
     <>
       {isLoading ? (
@@ -146,8 +145,7 @@ const Dashboard = ({ title, description, children }) => {
                       <Card
                         title="Total Orders"
                         Icon={FiShoppingCart}
-                        // quantity={data?.totalDoc}
-                        quantity={300}
+                        quantity={orders?.length}
                         className="text-red-600  bg-red-200"
                       />
                       <Card
@@ -169,7 +167,11 @@ const Dashboard = ({ title, description, children }) => {
                         className="text-emerald-600 bg-emerald-200"
                       />
                     </div>
-                    <RecentOrder data={data} loading={loading} error={error} />
+                    <RecentOrder
+                      data={orders}
+                      loading={loading}
+                      error={error}
+                    />
                   </div>
                 )}
                 {children}

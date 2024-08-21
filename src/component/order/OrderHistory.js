@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import dayjs from "dayjs";
 
 const OrderHistory = ({ order, currency }) => {
@@ -19,24 +20,45 @@ const OrderHistory = ({ order, currency }) => {
         <span className="text-sm">{order.paymentMethod}</span>
       </td>
       <td className="px-5 py-3 leading-6 text-center whitespace-nowrap font-medium text-sm">
-        {order.status === "Delivered" && (
+        {order.status === "DELIVERED" && (
           <span className="text-emerald-500">{order.status}</span>
         )}
-        {order.status === "Pending" && (
+        {order.status === "PENDING" && (
           <span className="text-orange-500">{order.status}</span>
         )}
-        {order.status === "Cancel" && (
+        {order.status === "CANCEL" && (
           <span className="text-red-500">{order.status}</span>
         )}
-        {order.status === "Processing" && (
+        {order.status === "PROCESSING" && (
           <span className="text-indigo-500">{order.status}</span>
         )}
       </td>
-      <td className="px-5 py-3 leading-6 text-center whitespace-nowrap">
+      {/* <td className="px-5 py-3 leading-6 text-center whitespace-nowrap">
         <span className="text-sm font-bold">
           {currency}
-          {parseFloat(order?.total).toFixed(2)}
+          {parseFloat(order?.totalAmount).toFixed(2).toLocaleString()}
         </span>
+      </td> */}
+      <td className="px-5 py-3 leading-6 text-center whitespace-nowrap">
+        <span className="text-sm font-bold">
+          {/* {currency} */}#
+          {parseFloat(order?.totalAmount)
+            .toFixed(2)
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+        </span>
+      </td>
+      {/* <td className="px-5 py-3 leading-6 text-center text-emerald-500 whitespace-nowrap rounded-xl cursor-pointer">
+        <Link href={`/order/${order._id}`}>
+          <span className="text-sm">Details</span>
+        </Link>
+      </td> */}
+      <td className="px-5 py-3 whitespace-nowrap text-center text-sm">
+        <Link
+          className="px-3 py-1 bg-emerald-100 text-xs text-emerald-600 hover:bg-emerald-500 hover:text-white transition-all font-semibold rounded-full"
+          href={`/order/${order._id}`}
+        >
+          Details
+        </Link>
       </td>
     </>
   );

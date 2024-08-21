@@ -106,7 +106,7 @@ const ProductModal = ({
 
                 <div className="flex gap-4">
                   <p className=" font-primaryBold">Brand</p>
-                  <p>Top wears</p>
+                  <p>{product?.manufacturer}</p>
                 </div>
 
                 {/* <div

@@ -49,7 +49,7 @@ const useAsync = (asyncFunction) => {
 
   useEffect(() => {
     if (errCode === 401) {
-      Cookies.remove("userInfo");
+      Cookies.remove("abhUserInfo");
 
       console.log("status 401", errCode);
       window.location.replace(`${process.env.NEXT_PUBLIC_STORE_DOMAIN}`);

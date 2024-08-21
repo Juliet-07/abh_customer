@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoCloudDownloadOutline, IoPrintOutline } from "react-icons/io5";
 import ReactToPrint from "react-to-print";
+import axios from "axios";
 
 //internal import
 
@@ -15,8 +16,11 @@ import { UserContext } from "@context/UserContext";
 import OrderServices from "@services/OrderServices";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 import InvoiceForDownload from "@component/invoice/InvoiceForDownload";
+import { notifyError } from "@utils/toast";
 
 const Order = ({ params }) => {
+  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const token = localStorage.getItem("abhUserInfo");
   const printRef = useRef();
   const orderId = params.id;
   const router = useRouter();
@@ -29,22 +33,46 @@ const Order = ({ params }) => {
   const { showingTranslateValue, getNumberTwo, currency } = useUtilsFunction();
   const { storeCustomizationSetting, globalSetting } = useGetSetting();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await OrderServices.getOrderById(orderId);
-        setData(res);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        console.log("err", err.message);
-      }
-    })();
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const res = await OrderServices.getOrderById(orderId);
+  //       setData(res);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       setLoading(false);
+  //       console.log("err", err.message);
+  //     }
+  //   })();
 
-    if (!userInfo) {
-      router.push("/");
-    }
-  }, []);
+  //   // if (!userInfo) {
+  //   //   router.push("/");
+  //   // }
+  // }, []);
+
+  useEffect(() => {
+    const getMyOrders = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${apiURL}/orders/${orderId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+        console.log(response.data.data, "Order By ID");
+        setData(response.data.data);
+        setLoading(false);
+        // setOrders(response.data.data.data);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        notifyError("Failed to fetch orders");
+        setLoading(false);
+      }
+    };
+
+    getMyOrders();
+  }, [router]);
 
   return (
     <Layout title="Invoice" description="order confirmation page">
@@ -54,15 +82,11 @@ const Order = ({ params }) => {
         <div className="max-w-screen-2xl mx-auto py-10 px-3 sm:px-6">
           <div className="bg-emerald-100 rounded-md mb-5 px-4 py-3">
             <label>
-              {showingTranslateValue(
-                storeCustomizationSetting?.dashboard?.invoice_message_first
-              )}{" "}
+              Thank you
               <span className="font-bold text-emerald-600">
-                {data?.user_info?.name},
+                {/* {data?.user_info?.name}, */} [name of user]
               </span>{" "}
-              {showingTranslateValue(
-                storeCustomizationSetting?.dashboard?.invoice_message_last
-              )}
+              your order has been receieved!
             </label>
           </div>
           <div className="bg-white rounded-lg shadow-sm">
@@ -90,9 +114,7 @@ const Order = ({ params }) => {
                       "Loading..."
                     ) : (
                       <button className="mb-3 sm:mb-0 md:mb-0 lg:mb-0 flex items-center justify-center bg-emerald-500  text-white transition-all font-serif text-sm font-semibold h-10 py-2 px-5 rounded-md">
-                        {showingTranslateValue(
-                          storeCustomizationSetting?.dashboard?.download_button
-                        )}{" "}
+                        Download Invoice
                         <span className="ml-2 text-base">
                           <IoCloudDownloadOutline />
                         </span>
@@ -104,9 +126,7 @@ const Order = ({ params }) => {
                 <ReactToPrint
                   trigger={() => (
                     <button className="mb-3 sm:mb-0 md:mb-0 lg:mb-0 flex items-center justify-center bg-emerald-500  text-white transition-all font-serif text-sm font-semibold h-10 py-2 px-5 rounded-md">
-                      {showingTranslateValue(
-                        storeCustomizationSetting?.dashboard?.print_button
-                      )}{" "}
+                      Print Invoice
                       <span className="ml-2">
                         <IoPrintOutline />
                       </span>

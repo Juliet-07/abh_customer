@@ -25,7 +25,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
               {data.status === "POS-Completed" && (
                 <span className="text-emerald-500">{data.status}</span>
               )}
-              {data.status === "Pending" && (
+              {data.status === "PENDING" && (
                 <span className="text-orange-500">{data.status}</span>
               )}
               {data.status === "Cancel" && (
@@ -43,16 +43,17 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
             <h2 className="text-lg font-serif font-semibold mt-4 lg:mt-0 md:mt-0">
               <Link href="/">
                 <Image
-                  width={110}
-                  height={40}
-                  src="/logo/logo-color.svg"
+                  width={250}
+                  height={100}
+                  // src="/logo/logo-color.svg"
+                  src={"/abh_logo.png"}
                   alt="logo"
                 />
               </Link>
             </h2>
             <p className="text-sm text-gray-500">
               {globalSetting?.address ||
-                "Cecilia Chapman, 561-4535 Nulla LA, <br /> United States 96522"}
+                "10 Havana Estate SARS Road Port Harcourt"}
             </p>
           </div>
         </div>
@@ -62,8 +63,8 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
               Date
             </span>
             <span className="text-sm text-gray-500 block">
-              {data.createdAt !== undefined && (
-                <span>{dayjs(data?.createdAt).format("MMMM D, YYYY")}</span>
+              {data.created_at !== undefined && (
+                <span>{dayjs(data?.created_at).format("MMMM D, YYYY")}</span>
               )}
             </span>
           </div>
@@ -84,9 +85,10 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
               {data?.user_info?.email}{" "}
               <span className="ml-2">{data?.user_info?.contact}</span>
               <br />
-              {data?.user_info?.address}
+              {data?.shippingAddress?.street}
               <br />
-              {data?.city} {data?.country} {data?.zipCode}
+              {data?.shippingAddress?.city} {data?.shippingAddress?.state}{" "}
+              {data?.shippingAddress?.country}
             </span>
           </div>
         </div>
@@ -152,7 +154,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
             </span>
             <span className="text-sm text-gray-500 font-semibold font-serif block">
               {currency}
-              {getNumberTwo(data.shippingCost)}
+              {getNumberTwo(data.shippingFee)}
             </span>
           </div>
           <div className="mb-3 md:mb-0 lg:mb-0  flex flex-col sm:flex-wrap">
@@ -170,7 +172,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
             </span>
             <span className="text-2xl font-serif font-bold text-red-500 block">
               {currency}
-              {getNumberTwo(data.total)}
+              {getNumberTwo(data.totalAmount)}
             </span>
           </div>
         </div>

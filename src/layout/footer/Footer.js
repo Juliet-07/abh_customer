@@ -196,11 +196,11 @@ const Footer = () => {
               </div>
             </Link>
             <p className="leading-7 font-sans text-sm text-gray-600 mt-3">
-              987 Andre Plain Suite High Street 838, Lake Hestertown, USA
+              10 Havana Estate SARS Road, Port Harcourt, Nigeria
               <br />
               <span>Tel: 02.356.1666</span>
               <br />
-              <span>Email: ccruidk@test.com</span>
+              <span>Email: abh.commarket@gmail.com</span>
             </p>
           </div>
         </div>
@@ -209,7 +209,8 @@ const Footer = () => {
 
         <div className="mx-auto max-w-screen-2xl px-4 sm:px-10 bg-gray-50 shadow-sm border border-gray-50 rounded-lg">
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-9 lg:gap-11 xl:gap-7 py-8 items-center justify-between">
-            <div className="col-span-1">
+            <div></div>
+            {/* <div className="col-span-1">
               <div>
                 {(storeCustomizationSetting?.footer?.social_facebook ||
                   storeCustomizationSetting?.footer?.social_twitter ||
@@ -268,7 +269,7 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
             <div className="col-span-1 text-center hidden lg:block md:block">
               <div>
                 <p className="text-base leading-7 font-medium block">

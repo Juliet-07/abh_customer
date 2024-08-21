@@ -34,9 +34,9 @@ const InputShipping = ({
             </div>
             <input
               onClick={() => handleShippingCost(cost)}
-              {...register(`shippingOption`, {
-                required: `Shipping Option is required!`,
-              })}
+              // {...register(`shippingOption`, {
+              //   required: `Shipping Option is required!`,
+              // })}
               name="shippingOption"
               type="radio"
               value={value}

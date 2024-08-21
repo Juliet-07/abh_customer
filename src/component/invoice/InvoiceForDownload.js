@@ -288,14 +288,15 @@ const InvoiceForDownload = ({
                 }}
               >
                 <Image
-                  src="https://res.cloudinary.com/ahossain/image/upload/v1681454665/logo/logo-color_qw1trc.png"
+                  src={"/abh_logo.png"}
+                  // src="https://res.cloudinary.com/ahossain/image/upload/v1681454665/logo/logo-color_qw1trc.png"
                   alt="Invoice"
                   style={{ width: 80, textAlign: "right" }}
                 />
               </Text>
               <Text style={styles.topAddress}>
                 {globalSetting?.address ||
-                  "Cecilia Chapman, 561-4535 Nulla LA, United States 96522"}
+                  "10 Havana Estate SARS Road Port Harcourt"}
               </Text>
               {/* <Text style={styles.info}> United States 96522</Text> */}
             </View>
@@ -317,11 +318,11 @@ const InvoiceForDownload = ({
               <Text style={styles.info}>{data?.user_info?.name}</Text>
               <Text style={styles.info}>
                 {" "}
-                {data?.user_info?.address?.substring(0, 25)}
+                {data?.shippingAddress?.street?.substring(0, 25)}
               </Text>
               <Text style={styles.info}>
-                {data?.user_info?.city}, {data?.user_info?.country},{" "}
-                {data?.user_info?.zipCode}
+                {data?.shippingAddress?.city}, {data?.shippingAddress?.state},{" "}
+                {data?.shippingAddress?.country}
               </Text>
             </View>
           </View>
@@ -355,13 +356,13 @@ const InvoiceForDownload = ({
                 </Text>
               </View>
             </View>
-            {data?.cart?.map((item, i) => (
+            {data?.products?.map((item, i) => (
               <View key={i} style={styles.tableRow}>
                 <View style={styles.tableCol}>
                   <Text style={styles.tableCell}>{i + 1} </Text>
                 </View>
                 <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>{item.title} </Text>
+                  <Text style={styles.tableCell}>{item.productId.name} </Text>
                 </View>
                 <View style={styles.tableCol}>
                   <Text style={styles.tableCell}>
@@ -374,7 +375,7 @@ const InvoiceForDownload = ({
                     {" "}
                     <Text style={styles.quantity}>
                       {currency}
-                      {getNumberTwo(item.price)}
+                      {getNumberTwo(item.productId.sellingPrice)}
                     </Text>{" "}
                   </Text>
                 </View>
@@ -383,7 +384,7 @@ const InvoiceForDownload = ({
                   <Text style={styles.tableCell}>
                     <Text style={styles.amount}>
                       {currency}
-                      {getNumberTwo(item.itemTotal)}
+                      {getNumberTwo(item.quantity * item.productId.sellingPrice)}
                     </Text>{" "}
                   </Text>
                 </View>
@@ -400,7 +401,7 @@ const InvoiceForDownload = ({
               <Text style={styles.title}>Shipping Cost</Text>
               <Text style={styles.info}>
                 {currency}
-                {getNumberTwo(data.shippingCost)}
+                {getNumberTwo(data.shippingFee)}
               </Text>
             </View>
             <View>
@@ -416,7 +417,7 @@ const InvoiceForDownload = ({
               <Text style={styles.title}>Total Amount</Text>
               <Text style={styles.amount}>
                 {currency}
-                {getNumberTwo(data.total)}
+                {getNumberTwo(data.totalAmount)}
               </Text>
             </View>
           </View>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { IoBagHandle } from "react-icons/io5";
 import ReactPaginate from "react-paginate";
+import axios from "axios";
 
 //internal import
 import Dashboard from "@pages/user/dashboard";
@@ -15,54 +16,60 @@ import useGetSetting from "@hooks/useGetSetting";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 
 const MyOrders = () => {
+  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const token = localStorage.getItem("abhUserInfo");
   const router = useRouter();
   const {
     state: { userInfo },
   } = useContext(UserContext);
-  const { currentPage, handleChangePage, isLoading, setIsLoading } =
+  const { handleChangePage, isLoading, setIsLoading } =
     useContext(SidebarContext);
 
-  const { storeCustomizationSetting } = useGetSetting();
-  const { showingTranslateValue } = useUtilsFunction();
-
-  const [data, setData] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(0);
+  const pageCount = Math.ceil(orders?.length / itemsPerPage);
+  const currentItems = orders.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+    handleChangePage(event.selected + 1); // Adjust based on your pagination handling
+  };
   useEffect(() => {
-    OrderServices.getOrderCustomer({
-      page: currentPage,
-      limit: 8,
-    })
-      .then((res) => {
-        setData(res);
+    const getMyOrders = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${apiURL}/orders/user/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+        console.log(response.data.data.data, "Orders");
+        setOrders(response.data.data.data);
         setLoading(false);
-      })
-      .catch((err) => {
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setError("Failed to fetch orders");
         setLoading(false);
-        setError(err.message);
-      });
-  }, [currentPage]);
+      }
+    };
 
-  const pageCount = Math.ceil(data?.totalDoc / 8);
-
-  useEffect(() => {
-    setIsLoading(false);
-    if (!userInfo) {
-      router.push("/");
-    }
-  }, [userInfo]);
-
-  // console.log("data?.orders?.length", data?.totalDoc);
+    getMyOrders();
+  }, [router]);
   return (
     <>
       {isLoading ? (
         <Loading loading={isLoading} />
       ) : (
         <Dashboard
-          title={showingTranslateValue(
-            storeCustomizationSetting?.dashboard?.my_order
-          )}
+          title="My Orders"
           description="This is user order history page"
         >
           <div className="overflow-hidden rounded-md font-serif">
@@ -72,7 +79,7 @@ const MyOrders = () => {
               <h2 className="text-xl text-center my-10 mx-auto w-11/12 text-red-400">
                 {error}
               </h2>
-            ) : data?.orders?.length === 0 ? (
+            ) : orders?.length === 0 ? (
               <div className="text-center">
                 <span className="flex justify-center my-30 pt-16 text-emerald-500 font-semibold text-6xl">
                   <IoBagHandle />
@@ -132,29 +139,27 @@ const MyOrders = () => {
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                          {data?.orders?.map((order) => (
+                          {currentItems?.map((order) => (
                             <tr key={order._id}>
                               <OrderHistory order={order} />
-                              <td className="px-5 py-3 whitespace-nowrap text-right text-sm">
+                              {/* <td className="px-5 py-3 whitespace-nowrap text-right text-sm">
                                 <Link
                                   className="px-3 py-1 bg-emerald-100 text-xs text-emerald-600 hover:bg-emerald-500 hover:text-white transition-all font-semibold rounded-full"
                                   href={`/order/${order._id}`}
                                 >
                                   Details
                                 </Link>
-                              </td>
+                              </td> */}
                             </tr>
                           ))}
                         </tbody>
                       </table>
-                      {data?.totalDoc > 10 && (
+                      {pageCount > 1 && (
                         <div className="paginationOrder">
                           <ReactPaginate
                             breakLabel="..."
                             nextLabel="Next"
-                            onPageChange={(e) =>
-                              handleChangePage(e.selected + 1)
-                            }
+                            onPageChange={handlePageClick}
                             pageRangeDisplayed={3}
                             pageCount={pageCount}
                             previousLabel="Previous"
