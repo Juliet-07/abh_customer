@@ -36,7 +36,7 @@ const Checkout = () => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const token = localStorage.getItem("abhUserInfo");
   const { handleSubmit } = useForm();
-  const { items, cartTotal } = useCart();
+  const { items, cartTotal, emptyCart } = useCart();
   const [shippingCost, setShippingCost] = useState(0);
   const [showCard, setShowCard] = useState(false);
   const [isCheckoutSubmit, setIsCheckoutSubmit] = useState(false);
@@ -130,6 +130,7 @@ const Checkout = () => {
           }
           orderResponse = order.data.data;
           url = orderResponse.paymentResponse.data.url;
+          emptyCart();
           router.push(url);
           // const paymentPayload = {
           //   amount: totalCost,
