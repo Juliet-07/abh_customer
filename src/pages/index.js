@@ -17,6 +17,10 @@ import CMSkeleton from "@component/preloader/CMSkeleton";
 import MainCarousel from "@component/carousel/MainCarousel";
 import OfferCard from "@component/offer/OfferCard";
 import Banner from "@component/banner/Banner";
+import {
+  MdOutlineKeyboardArrowLeft,
+  MdOutlineKeyboardArrowRight,
+} from "react-icons/md";
 
 const Home = ({ popularProducts, discountProducts, attributes }) => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -57,8 +61,37 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
       title: "Health & Beauty",
       path: "/contact-us",
     },
+    {
+      image: "/beauty.png",
+      title: "Health & Beauty",
+      path: "/contact-us",
+    },
+    {
+      image: "/home.png",
+      title: "Home & Kitchen",
+      path: "/about-us",
+    },
+    {
+      image: "/grocery.png",
+      title: "Grocery and Gourmet",
+      path: "/contact-us",
+    },
+    {
+      image: "/beauty.png",
+      title: "Health & Beauty",
+      path: "/contact-us",
+    },
   ];
 
+  function scrollCategories(direction) {
+    const container = document.getElementById("categoryContainer");
+    const scrollAmount = 300; // Adjust this value to set the scroll distance
+    if (direction === "left") {
+      container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  }
   useEffect(() => {
     if (router.asPath === "/") {
       setIsLoading(false);
@@ -122,7 +155,7 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
             <div className="bg-white w-full">
               <div className="mx-auto w-full px-0">
                 <div className="flex w-full">
-                  <div className="flex-shrink-0 w-full">
+                  <div className="w-full">
                     <MainCarousel />
                   </div>
                 </div>
@@ -140,37 +173,62 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
               <div className="py-5 md:text-xl font-primarySemibold">
                 Shop by Category
               </div>
-              <div className="w-full flex gap-4 overflow-x-auto">
-                {categories.map((category) => (
-                  <Link href={category.path}>
-                    <div className="w-[100px] md:w-[270px] h-[130px] md:h-[270px] bg-[#CED9CF] flex flex-col items-center justify-center rounded md:rounded-lg">
-                      <Image
-                        width={211}
-                        height={226}
-                        src={category.image}
-                        alt={category.title}
-                        className="hidden md:block"
-                        // priority
-                      />
-                      <Image
-                        width={90}
-                        height={75}
-                        src={category.image}
-                        alt={category.title}
-                        className="block md:hidden"
-                        // priority
-                      />
-                      <p className="text-xs md:text-base font-primarySemibold md:py-3">
-                        {category.title}
-                        {/* {category.name} */}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
+              {/* Category Carousel */}
+              <div className="relative w-full flex items-center">
+                {/* Left Arrow */}
+                <button
+                  className="absolute left-0 z-10 bg-white shadow-md rounded-full p-1 md:p-2"
+                  onClick={() => scrollCategories("left")}
+                >
+                  <span className="material-icons">
+                    <MdOutlineKeyboardArrowLeft />
+                  </span>
+                </button>
+                {/* Categories */}
+                <div
+                  id="categoryContainer"
+                  className="w-full flex gap-4 overflow-x-auto scroll-smooth no-scrollbar"
+                >
+                  {categories.map((category) => (
+                    <Link href={category.path}>
+                      <div className="w-[100px] md:w-[270px] h-[130px] md:h-[270px] bg-[#CED9CF] flex flex-col items-center justify-center rounded md:rounded-lg">
+                        <Image
+                          width={211}
+                          height={226}
+                          src={category.image}
+                          alt={category.title}
+                          className="hidden md:block"
+                          // priority
+                        />
+                        <Image
+                          width={90}
+                          height={75}
+                          src={category.image}
+                          alt={category.title}
+                          className="block md:hidden"
+                          // priority
+                        />
+                        <p className="text-xs md:text-base font-primarySemibold md:py-3">
+                          {category.title}
+                          {/* {category.name} */}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                {/* Right Arrow */}
+                <button
+                  className="absolute right-0 z-10 bg-white shadow-md rounded-full p-2"
+                  onClick={() => scrollCategories("right")}
+                >
+                  <span className="material-icons">
+                    <MdOutlineKeyboardArrowRight />
+                  </span>
+                </button>
               </div>
             </div>
 
-            {/* popular products */}
+            {/* Our Products */}
             <div className="bg-gray-50 lg:py-16 py-10 mx-auto max-w-screen-2xl px-3 sm:px-10">
               <div className="flex items-center">
                 <div className="w-2 md:w-5 h-10 bg-[#359E52] rounded"></div>
@@ -263,6 +321,32 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
               </div>
             </div> */}
 
+            {/* Sample Products */}
+            <div className="block mx-auto max-w-screen-2xl mb-10">
+              <div className="mx-auto max-w-screen-2xl px-4 sm:px-10">
+                {/* <div className="lg:p-16 p-6 bg-[#359E52] shadow-sm border rounded-lg"> */}
+                <Image
+                  width="0"
+                  height="0"
+                  sizes="100vw"
+                  className="w-full h-auto hidden md:block"
+                  priority
+                  src={"/sample-frame.png"}
+                  alt="logo"
+                />
+                <Image
+                  width="0"
+                  height="0"
+                  sizes="100vw"
+                  className="w-full h-auto block md:hidden"
+                  priority
+                  src={"/sample-mobile.png"}
+                  alt="logo"
+                />
+                {/* </div> */}
+              </div>
+            </div>
+
             {/* promotional banner card */}
             <div className="block mx-auto max-w-screen-2xl">
               <div className="mx-auto max-w-screen-2xl px-4 sm:px-10">
@@ -273,7 +357,7 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
             </div>
 
             {/* discounted products */}
-            {storeCustomizationSetting?.home?.discount_product_status &&
+            {/* {storeCustomizationSetting?.home?.discount_product_status &&
               discountProducts?.length > 0 && (
                 <div
                   id="discount"
@@ -336,7 +420,7 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
           </div>
         </Layout>
       )}

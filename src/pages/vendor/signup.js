@@ -252,6 +252,7 @@ const Signup = () => {
               multiple
               className="px-3"
             />
+            <p className="text-red-500 text-xs mt-2">File must be a PDF</p>
           </div>
           <div className="w-full flex items-center justify-center my-6">
             <button

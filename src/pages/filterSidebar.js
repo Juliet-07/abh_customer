@@ -31,8 +31,8 @@ const FilterSidebar = ({ setSelectedCategories }) => {
       axios
         .get(`${apiURL}/category`)
         .then((response) => {
-          console.log(response.data.data.data);
-          setCategories(response.data.data.data);
+          console.log(response.data.data.items);
+          setCategories(response.data.data.items);
         })
         .catch((error) => {
           console.error("Error fetching vendors:", error);

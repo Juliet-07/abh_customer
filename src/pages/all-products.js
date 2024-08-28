@@ -45,10 +45,10 @@ const AllProducts = ({ popularProducts, discountProducts, attributes }) => {
     }
     const getProducts = () => {
       axios
-        .get(`${apiURL}/products/all`)
+        .get(`${apiURL}/products/list/retail`)
         .then((response) => {
-          console.log(response.data.data.data);
-          setProducts(response.data.data.data);
+          console.log(response.data.data.products);
+          setProducts(response.data.data.products);
         })
         .catch((error) => {
           console.error("Error fetching vendors:", error);

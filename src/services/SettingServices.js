@@ -14,7 +14,7 @@ const SettingServices = {
   //   return requests.get("/setting/store/customization/all");
   // },
   getStoreCustomizationSetting: async () => {
-    return requests.get("/products/all");
+    return requests.get("/products/list/all");
   },
   // getShowingLanguage: async () => {
   //   return requests.get(`/language/show`);

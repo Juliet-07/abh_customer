@@ -117,11 +117,11 @@ const MainCarousel = () => {
           >
             <div className="text-sm text-gray-600 hover:text-emerald-dark">
               <Image
-                width={500}
+                width={1728}
                 height={406}
                 src={item.image}
                 alt={item.title}
-                className="object-cover w-full"
+                className="object-contain w-full"
                 priority
               />
             </div>
