@@ -11,6 +11,7 @@ import MainModal from "@component/modal/MainModal";
 import Discount from "@component/common/Discount";
 import { SidebarContext } from "@context/SidebarContext";
 import { handleLogEvent } from "@utils/analytics";
+import Stock from "@component/common/Stock";
 
 const ProductModal = ({
   modalOpen,
@@ -101,7 +102,7 @@ const ProductModal = ({
                   >
                     {product?.name}
                   </h1>
-                  <p>{product?.category?.name}</p>
+                  <p>{product?.categoryId?.name}</p>
                 </div>
 
                 <div className="flex gap-4">

@@ -116,12 +116,12 @@ const ProductCard = ({ product, attributes }) => {
           }}
           className="relative flex justify-center cursor-pointer pt-2 w-full h-44"
         >
-          <div className="relative w-full h-full p-2">
+          <div className="relative w-full h-full p-3 flex items-center justify-center">
             {product.images[0] ? (
               <img
                 src={product.featured_image}
                 alt="product"
-                className="w-full h-full"
+                className="flex items-center justify-center h-full"
               />
             ) : (
               <Image
@@ -140,7 +140,7 @@ const ProductCard = ({ product, attributes }) => {
         <div className="w-full px-3 lg:px-4 pb-2 overflow-hidden">
           <div className="relative mb-1">
             <span className="text-gray-400 font-medium text-xs d-block mb-1">
-              {product.quantity + product.unit}
+              {product.quantity + " " + product.unit}
             </span>
             <h2 className="text-heading truncate mb-0 block text-sm font-medium text-gray-600">
               <span className="line-clamp-2">{product.name}</span>
@@ -152,7 +152,7 @@ const ProductCard = ({ product, attributes }) => {
               card
               product={product}
               currency={currency}
-              price={product?.price}
+              // price={product?.sellingPrice}
               // price={
               //   product?.isCombination
               //     ? product?.variants[0]?.price

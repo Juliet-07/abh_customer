@@ -1,6 +1,6 @@
-import Link from "next/link";
+import React, { useContext, useState, useMemo } from "react";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import Link from "next/link";
 import { useCart } from "react-use-cart";
 import { IoBagCheckOutline, IoClose, IoBagHandle } from "react-icons/io5";
 
@@ -14,7 +14,7 @@ import useUtilsFunction from "@hooks/useUtilsFunction";
 const Cart = () => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
-  const { isEmpty, items, cartTotal } = useCart();
+  const { isEmpty, items } = useCart();
   const { toggleCartDrawer, closeCartDrawer } = useContext(SidebarContext);
   const { currency } = useUtilsFunction();
 
@@ -28,6 +28,13 @@ const Cart = () => {
       setModalOpen(!modalOpen);
     }
   };
+
+  // Calculate the cart total using sellingPrice instead of price
+  const cartTotal = useMemo(() => {
+    return items.reduce((total, item) => {
+      return total + item.sellingPrice * item.quantity;
+    }, 0);
+  }, [items]);
 
   const checkoutClass = (
     <button

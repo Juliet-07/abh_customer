@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { CardElement } from "@stripe/react-stripe-js";
 import Link from "next/link";
@@ -36,12 +36,18 @@ const Checkout = () => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const token = localStorage.getItem("abhUserInfo");
   const { handleSubmit } = useForm();
-  const { items, cartTotal, emptyCart } = useCart();
+  const { items, emptyCart } = useCart();
   const [shippingCost, setShippingCost] = useState(0);
   const [showCard, setShowCard] = useState(false);
   const [isCheckoutSubmit, setIsCheckoutSubmit] = useState(false);
   const [paymentGateway, setPaymentGateway] = useState("");
   const [reference, setReference] = useState("");
+  // Calculate the cart total using sellingPrice instead of price
+  const cartTotal = useMemo(() => {
+    return items.reduce((total, item) => {
+      return total + item.sellingPrice * item.quantity;
+    }, 0);
+  }, [items]);
   const discount = 0.0; // Update this value based on your logic
   const totalCost = cartTotal + shippingCost - discount;
   const currency = "#";
