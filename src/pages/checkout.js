@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import dynamic from "next/dynamic";
-import { CardElement } from "@stripe/react-stripe-js";
+import axios from "axios";
 import Link from "next/link";
 import {
   IoReturnUpBackOutline,
@@ -9,7 +9,6 @@ import {
   IoWalletSharp,
 } from "react-icons/io5";
 import { ImCreditCard } from "react-icons/im";
-import useTranslation from "next-translate/useTranslation";
 import { useCart } from "react-use-cart";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -17,19 +16,13 @@ import { useRouter } from "next/router";
 //internal import
 
 import Layout from "@layout/Layout";
-import useAsync from "@hooks/useAsync";
 import Label from "@component/form/Label";
 import Error from "@component/form/Error";
 import CartItem from "@component/cart/CartItem";
-import InputArea from "@component/form/InputArea";
-import useGetSetting from "@hooks/useGetSetting";
 import InputShipping from "@component/form/InputShipping";
 import InputPayment from "@component/form/InputPayment";
-import useCheckoutSubmit from "@hooks/useCheckoutSubmit";
-import useUtilsFunction from "@hooks/useUtilsFunction";
-import SettingServices from "@services/SettingServices";
-import axios from "axios";
 import { notifySuccess } from "@utils/toast";
+import DropdownComponent from "./state-selection";
 
 const Checkout = () => {
   const router = useRouter();
@@ -41,7 +34,11 @@ const Checkout = () => {
   const [showCard, setShowCard] = useState(false);
   const [isCheckoutSubmit, setIsCheckoutSubmit] = useState(false);
   const [paymentGateway, setPaymentGateway] = useState("");
+  const [logisticsGateway, setLogisticsGateway] = useState("");
   const [reference, setReference] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [townId, setTownId] = useState("");
   // Calculate the cart total using sellingPrice instead of price
   const cartTotal = useMemo(() => {
     return items.reduce((total, item) => {
@@ -52,14 +49,6 @@ const Checkout = () => {
   const totalCost = cartTotal + shippingCost - discount;
   const currency = "#";
 
-  const handleShippingCost = (value) => {
-    setShippingCost(value);
-  };
-
-  const handlePaymentSelect = (value) => {
-    setPaymentGateway(value);
-  };
-
   console.log(items, "items in the cart");
 
   const initialValues = {
@@ -68,8 +57,8 @@ const Checkout = () => {
     email: "",
     phoneNumber: "",
     street: "",
-    city: "",
-    state: "",
+    // city: "",
+    // state: "",
     country: "",
     shippingFee: "",
     products: [],
@@ -82,8 +71,8 @@ const Checkout = () => {
     email,
     phoneNumber,
     street,
-    city,
-    state,
+    // city,
+    // state,
     country,
     shippingFee,
     products,
@@ -92,6 +81,60 @@ const Checkout = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setOrderDetails({ ...orderDetails, [name]: value });
+  };
+
+  const handleStateInfo = useCallback((data) => {
+    console.log({ data });
+    setState(data.state);
+    setCity(data.cityName);
+    setTownId(data.townId);
+    console.log(city, "checking state");
+  }, []);
+
+  // Fetch delivery fee
+  const fetchDeliveryFee = async () => {
+    let costData;
+    let cost;
+    try {
+      const payload = {
+        Origin: "LAGOS",
+        Destination: state,
+        // Weight: items.reduce(
+        //   (total, item) => total + item.weight * item.quantity,
+        //   0
+        // ),
+        Weight: 5.9,
+        // OnforwardingTownID: String(townId),
+        OnforwardingTownID: townId,
+        // PickupType: "1",
+      };
+      console.log(payload);
+      const response = await axios.post(
+        `${apiURL}/logistic/delivery-fee`,
+        payload
+      );
+      console.log(response.data.data, "response from delivery fee");
+      costData = response.data.data;
+      cost = costData[0]?.TotalAmount;
+      console.log(cost, "actual amount");
+      setShippingCost(cost);
+    } catch (error) {
+      console.error("Error fetching delivery fee:", error);
+    }
+  };
+
+  const handleShippingCost = () => {
+    // if (state && townId) {
+    fetchDeliveryFee();
+    // }
+  };
+
+  const handleLogisticsSelect = (value) => {
+    setLogisticsGateway(value);
+  };
+
+  const handlePaymentSelect = (value) => {
+    setPaymentGateway(value);
   };
 
   const submitOrder = () => {
@@ -111,14 +154,14 @@ const Checkout = () => {
         country: country,
       },
       shippingFee: shippingCost,
-      shippingMethod: "GIG_LOGISTICS",
+      shippingMethod: logisticsGateway,
       paymentGateway: paymentGateway,
       products: items.map((item) => ({
         productId: item._id,
         quantity: item.quantity,
       })),
     };
-
+    console.log(payload, "create order payload");
     setIsCheckoutSubmit(true);
 
     try {
@@ -244,7 +287,7 @@ const Checkout = () => {
                       02. Shipping Information
                     </h2>
 
-                    <div className="grid grid-cols-6 gap-6 mb-8">
+                    <div className="grid grid-cols-6 gap-6 mb-4">
                       <div className="col-span-6">
                         <Label label="Street Address" />
                         <input
@@ -258,7 +301,7 @@ const Checkout = () => {
                         />
                       </div>
 
-                      <div className="col-span-6 sm:col-span-6 lg:col-span-2">
+                      {/* <div className="col-span-6 sm:col-span-6 lg:col-span-2">
                         <Label label="City" />
                         <input
                           type="text"
@@ -293,8 +336,9 @@ const Checkout = () => {
                           onChange={handleChange}
                           required
                         />
-                      </div>
+                      </div> */}
                     </div>
+                    <DropdownComponent onForm={handleStateInfo} />
 
                     <Label label="Shipping Cost" />
                     <div className="grid grid-cols-6 gap-6">
@@ -302,14 +346,10 @@ const Checkout = () => {
                         <InputShipping
                           currency={currency}
                           handleShippingCost={handleShippingCost}
-                          // register={register}
-                          value="FedEx"
+                          value="REDSTART_LOGISTICS"
                           description="Delivery: 7 days Cost "
-                          cost={
-                            Number() || 60
-                            // storeCustomizationSetting?.checkout
-                            // ?.shipping_one_cost
-                          }
+                          cost={shippingCost}
+                          onClick={handleLogisticsSelect}
                         />
 
                         {/* <Error errorName={errors.shippingOption} /> */}

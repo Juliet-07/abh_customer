@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useCart } from "react-use-cart";
 import { IoBagHandleOutline } from "react-icons/io5";
@@ -9,11 +9,18 @@ import useAsync from "@hooks/useAsync";
 import SettingServices from "@services/SettingServices";
 
 const StickyCart = () => {
-  const { totalItems, cartTotal } = useCart();
+  const { totalItems, items } = useCart();
   const { toggleCartDrawer } = useContext(SidebarContext);
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
 
   const currency = globalSetting?.default_currency || "#";
+
+    // Calculate the cart total using sellingPrice instead of price
+    const cartTotal = useMemo(() => {
+      return items.reduce((total, item) => {
+        return total + item.sellingPrice * item.quantity;
+      }, 0);
+    }, [items]);
 
   return (
     <button aria-label="Cart" onClick={toggleCartDrawer} className="absolute">
