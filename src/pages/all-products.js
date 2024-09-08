@@ -49,6 +49,7 @@ const AllProducts = ({ popularProducts, discountProducts, attributes }) => {
         .then((response) => {
           console.log(response.data.data.products);
           setProducts(response.data.data.products);
+          // console.log(response.data.data.products[0].categoryId.name);
         })
         .catch((error) => {
           console.error("Error fetching vendors:", error);
@@ -79,23 +80,17 @@ const AllProducts = ({ popularProducts, discountProducts, attributes }) => {
     }
   };
 
-  // const filteredProducts = selectedCategories.length
-  //   ? products.filter((product) => {
-  //       selectedCategories.includes(product.category);
-  //       console.log(selectedCategories, "category selected");
-  //     })
-  //   : products;
-
   const filteredProducts = selectedCategories.length
     ? products.filter((product) =>
-        selectedCategories.some((category) => {
-          if (Array.isArray(product.category)) {
-            return product.category.includes(category);
-          }
-          return product.category === category;
+        selectedCategories.some((selectedCategory) => {
+          // Check if the categoryId.name matches any of the selected categories
+          return product.categoryId?.name === selectedCategory;
         })
       )
     : products;
+
+  // Add this line to log the filtered products to the console
+  console.log("Filtered Products:", filteredProducts);
 
   const sortedAndFilteredProducts = sortProducts(filteredProducts);
 
@@ -122,7 +117,10 @@ const AllProducts = ({ popularProducts, discountProducts, attributes }) => {
                 </div>
                 {/* Mobile Filter */}
                 <div className="md:hidden">
-                  <div className="flex items-center gap-10" onClick={toggleMobileFilter}>
+                  <div
+                    className="flex items-center gap-10"
+                    onClick={toggleMobileFilter}
+                  >
                     <p className="font-primarySemibold">Filter</p>
                     <span>{isMobileFilterVisible ? "▲" : "▼"}</span>
                   </div>

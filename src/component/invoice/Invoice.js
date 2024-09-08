@@ -19,16 +19,13 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
             <h1 className="font-bold font-serif text-2xl uppercase">Invoice</h1>
             <h6 className="text-gray-700">
               Status :{" "}
-              {data.status === "Delivered" && (
-                <span className="text-emerald-500">{data.status}</span>
-              )}
-              {data.status === "POS-Completed" && (
+              {data.status === "PAID" && (
                 <span className="text-emerald-500">{data.status}</span>
               )}
               {data.status === "PENDING" && (
                 <span className="text-orange-500">{data.status}</span>
               )}
-              {data.status === "Cancel" && (
+              {/* {data.status === "Cancel" && (
                 <span className="text-red-500">{data.status}</span>
               )}
               {data.status === "Processing" && (
@@ -36,7 +33,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
               )}
               {data.status === "Deleted" && (
                 <span className="text-red-700">{data.status}</span>
-              )}
+              )} */}
             </h6>
           </div>
           <div className="lg:text-right text-left">
@@ -73,7 +70,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
               Invoice No.
             </span>
             <span className="text-sm text-gray-500 block">
-              #{data?.invoice}
+              {data?._id?.substring(20, 24)}
             </span>
           </div>
           <div className="flex flex-col lg:text-right text-left">
@@ -81,9 +78,10 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
               Invoice To.
             </span>
             <span className="text-sm text-gray-500 block">
-              {data?.user_info?.name} <br />
-              {data?.user_info?.email}{" "}
-              <span className="ml-2">{data?.user_info?.contact}</span>
+              {data?.userId?.firstName + " " + data?.userId?.lastName} <br />
+              {data?.userId?.email}
+              <br />
+              <span className="ml-2">{data?.userId?.phoneNumber}</span>
               <br />
               {data?.shippingAddress?.street}
               <br />

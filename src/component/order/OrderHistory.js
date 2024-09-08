@@ -12,25 +12,25 @@ const OrderHistory = ({ order, currency }) => {
       </td>
       <td className="px-5 py-3 leading-6 text-center whitespace-nowrap">
         <span className="text-sm">
-          {dayjs(order.createdAt).format("MMMM D, YYYY")}
+          {dayjs(order.created_at).format("MMMM D, YYYY")}
         </span>
       </td>
 
-      <td className="px-5 py-3 leading-6 text-center whitespace-nowrap">
+      {/* <td className="px-5 py-3 leading-6 text-center whitespace-nowrap">
         <span className="text-sm">{order.paymentMethod}</span>
-      </td>
+      </td> */}
       <td className="px-5 py-3 leading-6 text-center whitespace-nowrap font-medium text-sm">
-        {order.status === "DELIVERED" && (
-          <span className="text-emerald-500">{order.status}</span>
+        {order.deliveryStatus === "DELIVERED" && (
+          <span className="text-emerald-500">{order.deliveryStatus}</span>
         )}
-        {order.status === "PENDING" && (
-          <span className="text-orange-500">{order.status}</span>
+        {order.deliveryStatus === "PENDING" && (
+          <span className="text-orange-500">{order.deliveryStatus}</span>
         )}
-        {order.status === "CANCEL" && (
-          <span className="text-red-500">{order.status}</span>
+        {order.deliveryStatus === "CANCEL" && (
+          <span className="text-red-500">{order.deliveryStatus}</span>
         )}
-        {order.status === "PROCESSING" && (
-          <span className="text-indigo-500">{order.status}</span>
+        {order.deliveryStatus === "PROCESSING" && (
+          <span className="text-indigo-500">{order.deliveryStatus}</span>
         )}
       </td>
       {/* <td className="px-5 py-3 leading-6 text-center whitespace-nowrap">

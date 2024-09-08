@@ -100,31 +100,46 @@ const ConfirmOrder = () => {
       ) : (
         <Layout>
           <div className="min-h-screen bg-gray-50 py-4 mx-auto max-w-screen-2xl px-3 sm:px-10">
-            <div className="w-full h-[72px] bg-white my-3 flex items-center px-5 font-primaryBold">
-              Your order is successfully placed
+            <div className="w-full h-[60px] bg-white mb-8 flex items-center px-5 font-primaryMedium shadow-md">
+              Order Placement
             </div>
-            <div className="w-full flex flex-col md:flex-row items-stretch justify-between gap-5 md:gap-20">
+            <div className="w-full flex flex-col md:flex-row items-stretch justify-between gap-20">
               {/* form one */}
-              <div
-                className="w-full p-[20px] min-h-[100vh] md:rounded-[10px]
-           border-[1px] border-[#CFCBCB] bg-white md:max-w-[426px]"
-              >
-                <b className="text-[16px]">Featured Image</b>
-                <p className="text-[16px]">
-                  Upload your product featured image here. Image size should not
-                  be more than 2 MB
-                </p>
-                <br />
-                <br />
-                <b className="text-[16px]">Gallery</b>
-                <p className="text-[16px]">
-                  Upload your product image gallery here. Image size should not
-                  be more than  2 MB
-                </p>
-                <br />
-              </div>
-              {/* form two */}
-              <div className="w-full p-5 min-h-[100vh] md:rounded-xl border bg-white grid">
+              <div className="w-full md:w-[50%] min-h-[80vh] p-5 md:rounded-xl border border-[#CFCBCB] bg-white grid">
+                <b className="text-[16px]">Shipping Information</b>
+                <div>
+                  <label className="text-base">Full Name</label>
+                  <input
+                    type="text"
+                    className="w-full border border-[#CFCBCB] p-3 my-2"
+                    placeholder="Name of item"
+                    name="name"
+                    // value={name}
+                    // onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <label className="text-base">Phone Number</label>
+                  <input
+                    type="text"
+                    className="w-full border border-[#CFCBCB] p-3 my-2"
+                    placeholder="Name of item"
+                    name="name"
+                    // value={name}
+                    // onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <label className="text-base">Delivery Address</label>
+                  <input
+                    type="text"
+                    className="w-full border border-[#CFCBCB] p-3 my-2"
+                    placeholder="Name of item"
+                    name="name"
+                    // value={name}
+                    // onChange={handleChange}
+                  />
+                </div>
                 <div>
                   <label className="text-base">Product Name</label>
                   <input
@@ -136,50 +151,57 @@ const ConfirmOrder = () => {
                     // onChange={handleChange}
                   />
                 </div>
-
                 <div>
-                  <label className="text-base">Quantity (in units)</label>
-                  <input
-                    type="number"
-                    className="w-full border border-[#CFCBCB] p-3 my-2"
-                    placeholder="Number of item"
-                    name="quantity"
-                    // value={quantity}
-                    // onChange={handleChange}
-                  />
-                </div>
-
-                <div>
-                  <label className="text-base">Manufacturer</label>
+                  <label className="text-base">Payment Method</label>
                   <input
                     type="text"
                     className="w-full border border-[#CFCBCB] p-3 my-2"
-                    placeholder="Input Brand Name"
-                    name="manufacturer"
-                    // value={manufacturer}
+                    placeholder="Name of item"
+                    name="name"
+                    // value={name}
                     // onChange={handleChange}
                   />
                 </div>
-                <div>
-                  <label className="text-base">Price</label>
-                  <input
-                    type="number"
-                    className="w-full border border-[#CFCBCB] p-3 my-2"
-                    placeholder="Price per item"
-                    name="price"
-                    // value={price}
-                    // onChange={handleChange}
-                  />
+              </div>
+              {/* form two */}
+              <div className="w-full md:w-[50%] min-h-[80vh] p-5 md:rounded-xl border border-[#CFCBCB] bg-white grid gap-2">
+                <b className="text-[16px] font-primarySemibold">
+                  Payment Summary
+                </b>
+
+                <div className="flex justify-between">
+                  <p className="font-primaryRegular">Item's total (1)</p>
+                  <p className="font-primarySemibold">₦ 15,000.00</p>
                 </div>
-                <div>
-                  <label className="text-base">Product Description</label>
-                  <textarea
-                    className="w-full border border-[#CFCBCB] p-3 my-2"
-                    placeholder="Enter product description"
-                    name="description"
-                    // value={description}
-                    // onChange={handleChange}
-                  ></textarea>
+
+                <div className="flex justify-between">
+                  <p className="font-primaryRegular">QTY</p>
+                  <p className="font-primaryRegular">1 unit</p>
+                </div>
+
+                <div className="w-full flex items-center justify-between font-primaryRegular mt-2">
+                  <p>Subtotal</p>
+                  <p>₦ 15,000.00</p>
+                </div>
+
+                <hr className="border-t border-gray-300 my-2" />
+
+                <div className="w-full flex items-center justify-between font-primaryRegular">
+                  <p>Shipping fee</p>
+                  <p>₦ 1,500.00</p>
+                </div>
+
+                <hr className="border-t border-gray-300 my-2" />
+
+                <div className="w-full flex items-center justify-between font-primarySemibold">
+                  <p>Total</p>
+                  <p>₦ 17,000.00</p>
+                </div>
+
+                <div className="w-full flex items-center justify-center mt-5">
+                  <button className="w-[265px] h-[46px] bg-[#4CBD6B] rounded-lg text-white font-primarySemibold">
+                    Confirm Order
+                  </button>
                 </div>
               </div>
             </div>

@@ -68,12 +68,12 @@ const RecentOrder = ({ data, loading, error }) => {
                             OrderTime
                           </th>
 
-                          <th
+                          {/* <th
                             scope="col"
                             className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
                           >
                             Method
-                          </th>
+                          </th> */}
                           <th
                             scope="col"
                             className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
@@ -84,7 +84,7 @@ const RecentOrder = ({ data, loading, error }) => {
                             scope="col"
                             className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
                           >
-                            Total
+                            Amount Paid
                           </th>
                           <th
                             scope="col"

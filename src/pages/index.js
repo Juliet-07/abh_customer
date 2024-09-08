@@ -28,60 +28,7 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
   const { isLoading, setIsLoading } = useContext(SidebarContext);
   const { loading, error, storeCustomizationSetting } = useGetSetting();
   const [products, setProducts] = useState([]);
-  // const [categories, setCategories] = useState([]);
-
-  const categories = [
-    {
-      image: "/fashion.png",
-      title: "Fashion & Apparel",
-      path: "/about-us",
-    },
-    {
-      image: "/electronics.png",
-      title: "Electronics",
-      path: "/contact-us",
-    },
-    {
-      image: "/beauty.png",
-      title: "Health & Beauty",
-      path: "/contact-us",
-    },
-    {
-      image: "/home.png",
-      title: "Home & Kitchen",
-      path: "/about-us",
-    },
-    {
-      image: "/grocery.png",
-      title: "Grocery and Gourmet",
-      path: "/contact-us",
-    },
-    {
-      image: "/beauty.png",
-      title: "Health & Beauty",
-      path: "/contact-us",
-    },
-    {
-      image: "/beauty.png",
-      title: "Health & Beauty",
-      path: "/contact-us",
-    },
-    {
-      image: "/home.png",
-      title: "Home & Kitchen",
-      path: "/about-us",
-    },
-    {
-      image: "/grocery.png",
-      title: "Grocery and Gourmet",
-      path: "/contact-us",
-    },
-    {
-      image: "/beauty.png",
-      title: "Health & Beauty",
-      path: "/contact-us",
-    },
-  ];
+  const [categories, setCategories] = useState([]);
 
   function scrollCategories(direction) {
     const container = document.getElementById("categoryContainer");
@@ -92,12 +39,26 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
       container.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   }
+
   useEffect(() => {
     if (router.asPath === "/") {
       setIsLoading(false);
     } else {
       setIsLoading(false);
     }
+
+    const getCategories = () => {
+      axios
+        .get(`${apiURL}/category`)
+        .then((response) => {
+          console.log(response.data.data.items);
+          setCategories(response.data.data.items);
+        })
+        .catch((error) => {
+          console.error("Error fetching vendors:", error);
+        });
+    };
+
     const getProducts = () => {
       axios
         .get(`${apiURL}/products/list/retail`)
@@ -106,23 +67,11 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
           setProducts(response.data.data.products);
         })
         .catch((error) => {
-          console.error("Error fetching vendors:", error);
+          console.error("Error fetching categories:", error);
         });
     };
 
-    // const getCategories = () => {
-    //   axios
-    //     .get(`${apiURL}/category`)
-    //     .then((response) => {
-    //       console.log(response.data.data.data);
-    //       setCategories(response.data.data.data);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching vendors:", error);
-    //     });
-    // };
-
-    // getCategories();
+    getCategories();
     getProducts();
   }, [router]);
 
@@ -190,27 +139,32 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
                   className="w-full flex gap-4 overflow-x-auto scroll-smooth no-scrollbar"
                 >
                   {categories.map((category) => (
-                    <Link href={category.path}>
+                    <Link
+                      // href={`categories/${category._id}`}
+                      href={{
+                        pathname: `categories/${category._id}`,
+                        query: { name: category.name }, // Add the category name as a query parameter
+                      }}
+                    >
                       <div className="w-[100px] md:w-[270px] h-[130px] md:h-[270px] bg-[#CED9CF] flex flex-col items-center justify-center rounded md:rounded-lg">
                         <Image
                           width={211}
                           height={226}
-                          src={category.image}
-                          alt={category.title}
+                          src={category?.image}
+                          alt={category?.name}
                           className="hidden md:block"
                           // priority
                         />
                         <Image
                           width={90}
                           height={75}
-                          src={category.image}
-                          alt={category.title}
+                          src={category?.image}
+                          alt={category?.name}
                           className="block md:hidden"
                           // priority
                         />
                         <p className="text-xs md:text-base font-primarySemibold md:py-3">
-                          {category.title}
-                          {/* {category.name} */}
+                          {category.name}
                         </p>
                       </div>
                     </Link>
