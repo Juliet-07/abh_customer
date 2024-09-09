@@ -50,6 +50,9 @@ const Checkout = () => {
   const currency = "#";
 
   console.log(items, "items in the cart");
+  let weights = items.map((item) => item.weight);
+  let totalWeight = weights.reduce((acc, weight) => acc + weight, 0);
+  console.log(totalWeight, "weight of products in this cart");
 
   const initialValues = {
     firstName: "",
@@ -103,7 +106,7 @@ const Checkout = () => {
         //   (total, item) => total + item.weight * item.quantity,
         //   0
         // ),
-        Weight: 5.9,
+        Weight: totalWeight,
         // OnforwardingTownID: String(townId),
         OnforwardingTownID: townId,
         // PickupType: "1",
