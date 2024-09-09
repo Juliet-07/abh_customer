@@ -95,18 +95,19 @@ const Checkout = () => {
   }, []);
 
   // Fetch delivery fee
-  const fetchDeliveryFee = async () => {
+  const fetchDeliveryFee = async (origin) => {
     let costData;
     let cost;
     try {
       const payload = {
-        Origin: "LAGOS",
+        Origin: origin,
         Destination: state,
         // Weight: items.reduce(
         //   (total, item) => total + item.weight * item.quantity,
         //   0
         // ),
         Weight: totalWeight,
+        // Weight: 10,
         // OnforwardingTownID: String(townId),
         OnforwardingTownID: townId,
         // PickupType: "1",
@@ -118,18 +119,49 @@ const Checkout = () => {
       );
       console.log(response.data.data, "response from delivery fee");
       costData = response.data.data;
-      cost = costData[0]?.TotalAmount;
+      cost = parseFloat(costData[0]?.TotalAmount);
       console.log(cost, "actual amount");
-      setShippingCost(cost);
+      return isNaN(cost) ? 0 : cost;
     } catch (error) {
       console.error("Error fetching delivery fee:", error);
     }
   };
 
-  const handleShippingCost = () => {
-    // if (state && townId) {
-    fetchDeliveryFee();
-    // }
+  const calculateTotalDeliveryFee = async () => {
+    try {
+      let vendorOrigins = items.map((origin) => origin?.vendor?.state);
+      console.log(vendorOrigins, "places of the vendor");
+
+      const uniqueOrigins = [...new Set(vendorOrigins)];
+
+      const deliveryFeePromises = uniqueOrigins.map((origin) =>
+        fetchDeliveryFee(origin)
+      );
+
+      const deliveryFees = await Promise.all(deliveryFeePromises);
+      console.log("Fetched delivery fees:", deliveryFees);
+
+      const totalDeliveryFee = deliveryFees.reduce((total, fee) => {
+        const numericFee = parseFloat(fee);
+        return total + (isNaN(numericFee) ? 0 : numericFee);
+      }, 0);
+
+      setShippingCost(totalDeliveryFee);
+
+      console.log("Total Delivery Fee:", totalDeliveryFee);
+    } catch (error) {
+      console.error("Error calculating total delivery fee:", error);
+    }
+  };
+
+  // const handleShippingCost = () => {
+  //   // if (state && townId) {
+  //   fetchDeliveryFee();
+  //   // }
+  // };
+
+  const handleCalculateDeliveryFee = () => {
+    calculateTotalDeliveryFee();
   };
 
   const handleLogisticsSelect = (value) => {
@@ -348,55 +380,24 @@ const Checkout = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <InputShipping
                           currency={currency}
-                          handleShippingCost={handleShippingCost}
+                          // handleShippingCost={handleShippingCost}
+                          handleShippingCost={handleCalculateDeliveryFee}
                           value="REDSTART_LOGISTICS"
-                          description="Delivery: 7 days Cost "
+                          description="Delivery Cost: "
                           cost={shippingCost}
                           onClick={handleLogisticsSelect}
                         />
-
-                        {/* <Error errorName={errors.shippingOption} /> */}
-                      </div>
-
-                      <div className="col-span-6 sm:col-span-3">
-                        <InputShipping
-                          currency={currency}
-                          handleShippingCost={handleShippingCost}
-                          // register={register}
-                          value="GIG"
-                          description="Delivery: Today Cost "
-                          cost={
-                            Number() || 120
-                            // storeCustomizationSetting?.checkout
-                            // ?.shipping_one_cost
-                          }
-                        />
-
-                        {/* <Error errorName={errors.shippingOption} /> */}
                       </div>
 
                       {/* <div className="col-span-6 sm:col-span-3">
                         <InputShipping
                           currency={currency}
-                          handleShippingCost={handleShippingCost}
-                          register={register}
-                          // value={showingTranslateValue(
-                          //   storeCustomizationSetting?.checkout
-                          //     ?.shipping_name_two
-                          // )}
-                          // description={showingTranslateValue(
-                          //   storeCustomizationSetting?.checkout
-                          //     ?.shipping_two_desc
-                          // )}
-                          // time="7 Days"
-                          cost={
-                            Number(
-                              storeCustomizationSetting?.checkout
-                                ?.shipping_two_cost
-                            ) || 20
-                          }
+                          // handleShippingCost={handleShippingCost}
+                          // register={register}
+                          value="DHL"
+                          description="Delivery Cost: "
+                          cost={shippingCost}
                         />
-                        <Error errorName={errors.shippingOption} />
                       </div> */}
                     </div>
                   </div>
@@ -408,15 +409,11 @@ const Checkout = () => {
                     <div className="grid grid-cols-6 gap-6">
                       <div className="col-span-6 sm:col-span-3">
                         <InputPayment
-                          // setShowCard={setShowCard}
-                          // register={register}
                           name="Hydrogen Pay"
                           value="HYDROGENPAY"
                           Icon={IoWalletSharp}
-                          // onClick={() => handlePaymentSelect("HYDROGENPAY")}
                           onClick={handlePaymentSelect}
                         />
-                        {/* <Error errorName={errors.paymentMethod} /> */}
                       </div>
                       <div className="col-span-6 sm:col-span-3">
                         <InputPayment
@@ -425,10 +422,8 @@ const Checkout = () => {
                           name="Providus Bank"
                           value="PROVIDUS"
                           Icon={ImCreditCard}
-                          // onClick={() => handlePaymentSelect("PROVIDUS")}
                           onClick={handlePaymentSelect}
                         />
-                        {/* <Error errorName={errors.paymentMethod} /> */}
                       </div>
                     </div>
                   </div>
@@ -448,7 +443,6 @@ const Checkout = () => {
                     <div className="col-span-6 sm:col-span-3">
                       <button
                         type="submit"
-                        // disabled={isEmpty || !stripe || isCheckoutSubmit}
                         className="bg-[#359E52] hover:bg-[#359E52] border border-[#359E52] transition-all rounded py-3 text-center text-sm font-serif font-medium text-white flex justify-center w-full"
                       >
                         {isCheckoutSubmit ? (
@@ -484,23 +478,6 @@ const Checkout = () => {
                   Order Summary
                 </h2>
 
-                {/* <div className="overflow-y-scroll flex-grow scrollbar-hide w-full max-h-64 bg-gray-50 block">
-                  {items.map((item) => (
-                    <CartItem key={item.id} item={item} currency={currency} />
-                  ))}
-
-                  {isEmpty && (
-                  <div className="text-center py-10">
-                    <span className="flex justify-center my-auto text-gray-500 font-semibold text-4xl">
-                      <IoBagHandle />
-                    </span>
-                    <h2 className="font-medium font-serif text-sm pt-2 text-gray-600">
-                      No Item Added Yet!
-                    </h2>
-                  </div>
-                  )}
-                </div> */}
-
                 <div className="overflow-y-scroll flex-grow scrollbar-hide w-full max-h-64 bg-gray-50 block">
                   {items.length > 0 ? (
                     items.map((item) => (
@@ -533,12 +510,12 @@ const Checkout = () => {
                   </span>
                 </div>
 
-                <div className="flex items-center py-2 text-sm w-full font-semibold text-gray-500 last:border-b-0 last:text-base last:pb-0">
+                {/* <div className="flex items-center py-2 text-sm w-full font-semibold text-gray-500 last:border-b-0 last:text-base last:pb-0">
                   Discount
                   <span className="ml-auto flex-shrink-0 font-bold text-orange-400">
                     0.00
                   </span>
-                </div>
+                </div> */}
 
                 <div className="border-t mt-4">
                   <div className="flex items-center font-bold font-serif justify-between pt-5 text-sm uppercase">
