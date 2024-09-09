@@ -47,7 +47,7 @@ const Checkout = () => {
   }, [items]);
   const discount = 0.0; // Update this value based on your logic
   const totalCost = cartTotal + shippingCost - discount;
-  const currency = "#";
+  const currency = "₦";
 
   console.log(items, "items in the cart");
   let weights = items.map((item) => item.weight);

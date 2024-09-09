@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { SidebarContext } from "@context/SidebarContext";
@@ -21,6 +22,7 @@ import Banner from "@component/banner/Banner";
 const ConfirmOrder = () => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
+  const refId = params.id;
   const { isLoading, setIsLoading } = useContext(SidebarContext);
   const { loading, error, storeCustomizationSetting } = useGetSetting();
   const [products, setProducts] = useState([]);
@@ -67,9 +69,9 @@ const ConfirmOrder = () => {
     }
     const getProducts = () => {
       axios
-        .get(`${apiURL}/products/list/retail`)
+        .get(`${apiURL}/orders/list/${refId}`)
         .then((response) => {
-          console.log(response.data.data.products);
+          console.log(response.data);
           setProducts(response.data.data.products);
         })
         .catch((error) => {
@@ -212,4 +214,10 @@ const ConfirmOrder = () => {
   );
 };
 
-export default ConfirmOrder;
+export const getServerSideProps = ({ params }) => {
+  return {
+    props: { params },
+  };
+};
+
+export default dynamic(() => Promise.resolve(ConfirmOrder), { ssr: false });
