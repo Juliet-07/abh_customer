@@ -19,7 +19,7 @@ import MainCarousel from "@component/carousel/MainCarousel";
 import OfferCard from "@component/offer/OfferCard";
 import Banner from "@component/banner/Banner";
 
-const ConfirmOrder = () => {
+const ConfirmOrder = ({params}) => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const refId = params.id;
