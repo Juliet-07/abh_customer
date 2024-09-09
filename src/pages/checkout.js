@@ -106,8 +106,8 @@ const Checkout = () => {
         //   (total, item) => total + item.weight * item.quantity,
         //   0
         // ),
-        Weight: totalWeight,
-        // Weight: 10,
+        // Weight: totalWeight,
+        Weight: 10,
         // OnforwardingTownID: String(townId),
         OnforwardingTownID: townId,
         // PickupType: "1",

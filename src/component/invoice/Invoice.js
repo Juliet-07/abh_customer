@@ -157,11 +157,11 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
           </div>
           <div className="mb-3 md:mb-0 lg:mb-0  flex flex-col sm:flex-wrap">
             <span className="mb-1 font-bold font-serif text-sm uppercase text-gray-600 block">
-              Discount
+              VAT
             </span>
             <span className="text-sm text-gray-500 font-semibold font-serif block">
               {currency}
-              {getNumberTwo(data.discount)}
+              {getNumberTwo(data.vat)}
             </span>
           </div>
           <div className="flex flex-col sm:flex-wrap">
