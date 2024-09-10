@@ -147,8 +147,11 @@ const Navbar = () => {
                     {userInfo?.name[0]}
                   </Link>
                 ) : (
-                  <div className="flex items-center">
-                    <span onClick={() => setModalOpen(!modalOpen)}>
+                  <div
+                    className="flex items-center"
+                    onClick={() => setModalOpen(!modalOpen)}
+                  >
+                    <span>
                       <FiUser className="w-6 h-6 drop-shadow-xl" />
                     </span>
                     <p className="mx-2 text-sm">Sign in</p>

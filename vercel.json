@@ -5,11 +5,8 @@
         "destination": "/"
       },
       {
-        "source": "/:path/id",
-        "destination": "/path/[id]"
+        "source": "/order/:id",
+        "destination": "/order/[id]"
       }
     ]
   }
-  
-
-  
