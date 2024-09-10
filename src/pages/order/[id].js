@@ -144,11 +144,10 @@ const Order = ({ params }) => {
   );
 };
 
-export const getServerSideProps = async ({ params }) => {
+export const getServerSideProps = ({ params }) => {
   return {
     props: { params },
-    fallback: "blocking",
   };
 };
 
-export default dynamic(() => Promise.resolve(Order), { ssr: false });
+export default dynamic(() => Promise.resolve(Order), { ssr: true });
