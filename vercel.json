@@ -3,7 +3,13 @@
       {
         "source": "/:path*",
         "destination": "/"
+      },
+      {
+        "source": "/:path/:id",
+        "destination": "/path/[id]"
       }
     ]
   }
+  
+
   
