@@ -24,8 +24,8 @@ const CategoryPage = ({ params }) => {
         const response = await axios.get(
           `${apiURL}/products/category/${categoryId}`
         );
-        console.log(response.data.data, "product by category");
-        setProducts(response.data.data);
+        console.log(response.data.data.products, "product by category");
+        setProducts(response.data.data.products);
         setLoading(false);
       } catch (error) {
         setError("Error fetching products");
