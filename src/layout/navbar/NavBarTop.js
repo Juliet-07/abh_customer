@@ -43,16 +43,17 @@ const NavBarTop = () => {
         <LoginModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
       )}
 
-      <div className="hidden lg:block bg-gray-100">
+      {/* <div className="hidden lg:block bg-gray-100"> */}
+      <div className="block bg-gray-100">
         <div className="max-w-screen-2xl mx-auto px-3 sm:px-10">
-          <div className="text-gray-700 py-2 font-sans text-xs font-medium border-b flex justify-between items-center">
+          <div className="text-gray-700 py-1 font-sans text-xs font-medium border-b flex justify-between items-center">
             <span className="flex items-center">
-              <FiPhoneCall className="mr-2" />
+              Call Us <FiPhoneCall className="mr-2" />
               <a href="#" className="font-bold text-emerald-500 ml-1">
                 +099949343
               </a>
             </span>
-            <p>Logout</p>
+            {/* <p>Logout</p> */}
           </div>
         </div>
       </div>

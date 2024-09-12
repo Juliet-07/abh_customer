@@ -21,7 +21,7 @@ const Layout = ({ title, description, children }) => {
           {description && <meta name="description" content={description} />}
           <link ref="icon" href="/favicon.png" />
         </Head>
-        {/* <NavBarTop /> */}
+        <NavBarTop />
         <Navbar />
         <div className="bg-gray-50">{children}</div>
         <MobileFooter />

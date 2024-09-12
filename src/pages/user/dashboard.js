@@ -39,10 +39,15 @@ const Dashboard = ({ title, description, children }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
+  const [orderStats, setOrderstats] = useState({
+    pending: 0,
+    processing: 0,
+    completed: 0,
+  });
 
   const handleLogOut = () => {
     dispatch({ type: "USER_LOGOUT" });
-    Cookies.remove("abhUserInfo");
+    localStorage.clear("abhUserInfo");
     Cookies.remove("couponInfo");
     router.push("/");
   };
@@ -71,6 +76,7 @@ const Dashboard = ({ title, description, children }) => {
   ];
 
   useEffect(() => {
+    let ordersData;
     const getMyOrders = async () => {
       try {
         setLoading(true);
@@ -81,7 +87,9 @@ const Dashboard = ({ title, description, children }) => {
           },
         });
         console.log(response.data.data.data, "Orders");
-        setOrders(response.data.data.data);
+        ordersData = response.data.data.data;
+        setOrders(ordersData);
+        calculateOrderStats(ordersData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -92,6 +100,17 @@ const Dashboard = ({ title, description, children }) => {
 
     getMyOrders();
   }, [router]);
+
+  const calculateOrderStats = (orders) => {
+    const stats = { pending: 0, processing: 0, completed: 0 };
+    orders.forEach((order) => {
+      if (order.deliveryStatus === "PENDING") stats.pending++;
+      else if (order.deliveryStatus === "PROCESSING") stats.processing++;
+      else if (order.deliveryStatus === "COMPLETED") stats.completed++;
+    });
+    console.log(stats, "statistics");
+    setOrderstats(stats);
+  };
   return (
     <>
       {isLoading ? (
@@ -151,19 +170,19 @@ const Dashboard = ({ title, description, children }) => {
                       <Card
                         title="Pending Orders"
                         Icon={FiRefreshCw}
-                        quantity={100}
+                        quantity={orderStats.pending}
                         className="text-orange-600 bg-orange-200"
                       />
                       <Card
-                        title="Processing Orders"
+                        title="In Progress"
                         Icon={FiTruck}
-                        quantity={54}
+                        quantity={orderStats.processing}
                         className="text-indigo-600 bg-indigo-200"
                       />
                       <Card
                         title="Complete Orders"
                         Icon={FiCheck}
-                        quantity={146}
+                        quantity={orderStats.completed}
                         className="text-emerald-600 bg-emerald-200"
                       />
                     </div>

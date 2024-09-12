@@ -65,44 +65,44 @@ const ChangePassword = () => {
                 <div className="col-span-6 sm:col-span-6">
                   <InputArea
                     register={register}
-                    label={showingTranslateValue(
-                      storeCustomizationSetting?.dashboard?.user_email
-                    )}
+                    // label={showingTranslateValue(
+                    //   storeCustomizationSetting?.dashboard?.user_email
+                    // )}
+                    label="Email"
                     name="email"
                     type="email"
-                    placeholder={showingTranslateValue(
-                      storeCustomizationSetting?.dashboard?.user_email
-                    )}
+                    // placeholder={showingTranslateValue(
+                    //   storeCustomizationSetting?.dashboard?.user_email
+                    // )}
+                    placeholder="youremail@example.com"
                   />
                   <Error errorName={errors.email} />
                 </div>
                 <div className="col-span-6 sm:col-span-6">
                   <InputArea
                     register={register}
-                    label={showingTranslateValue(
-                      storeCustomizationSetting?.dashboard?.current_password
-                    )}
+                    // label={showingTranslateValue(
+                    //   storeCustomizationSetting?.dashboard?.current_password
+                    // )}
+                    label="Current Password"
                     name="currentPassword"
                     type="password"
                     autocomplete="new-password"
-                    placeholder={showingTranslateValue(
-                      storeCustomizationSetting?.dashboard?.current_password
-                    )}
+                    placeholder="Current Password"
                   />
                   <Error errorName={errors.currentPassword} />
                 </div>
                 <div className="col-span-6 sm:col-span-6">
                   <InputArea
                     register={register}
-                    label={showingTranslateValue(
-                      storeCustomizationSetting?.dashboard?.new_password
-                    )}
+                    // label={showingTranslateValue(
+                    //   storeCustomizationSetting?.dashboard?.new_password
+                    // )}
+                    label="New Password"
                     name="newPassword"
                     type="password"
                     autocomplete="new-password"
-                    placeholder={showingTranslateValue(
-                      storeCustomizationSetting?.dashboard?.new_password
-                    )}
+                    placeholder="New Password"
                   />
                   <Error errorName={errors.newPassword} />
                 </div>
@@ -130,9 +130,7 @@ const ChangePassword = () => {
               type="submit"
               className="md:text-sm leading-5 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-medium text-center justify-center border-0 border-transparent rounded-md placeholder-white focus-visible:outline-none focus:outline-none bg-emerald-500 text-white px-5 md:px-6 lg:px-8 py-2 md:py-3 lg:py-3 hover:text-white hover:bg-emerald-600 h-12 mt-1 text-sm lg:text-sm w-full sm:w-auto"
             >
-              {showingTranslateValue(
-                storeCustomizationSetting?.dashboard?.change_password
-              )}
+              Change Password
             </button>
           )}
         </div>

@@ -112,12 +112,12 @@ const MyOrders = () => {
                               OrderTime
                             </th>
 
-                            <th
+                            {/* <th
                               scope="col"
                               className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
                             >
                               Method
-                            </th>
+                            </th> */}
                             <th
                               scope="col"
                               className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
@@ -132,7 +132,7 @@ const MyOrders = () => {
                             </th>
                             <th
                               scope="col"
-                              className="text-right text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
+                              className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
                             >
                               Action
                             </th>
