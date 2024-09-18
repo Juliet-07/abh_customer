@@ -382,7 +382,7 @@ const Checkout = () => {
                           currency={currency}
                           // handleShippingCost={handleShippingCost}
                           handleShippingCost={handleCalculateDeliveryFee}
-                          value="REDSTART_LOGISTICS"
+                          value="REDSTAR_LOGISTICS"
                           description="Delivery Cost: "
                           cost={shippingCost}
                           onClick={handleLogisticsSelect}

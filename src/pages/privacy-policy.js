@@ -1,116 +1,164 @@
 import React from "react";
-
-//internal import
 import Layout from "@layout/Layout";
 import useGetSetting from "@hooks/useGetSetting";
 import PageHeader from "@component/header/PageHeader";
-import CMSkeleton from "@component/preloader/CMSkeleton";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 
 const PrivacyPolicy = () => {
   const { storeCustomizationSetting, loading, error } = useGetSetting();
   const { showingTranslateValue } = useUtilsFunction();
-  // console.log("data", storeCustomizationSetting);
 
   return (
     <Layout title="Privacy Policy" description="This is privacy policy page">
       <PageHeader
         headerBg={storeCustomizationSetting?.privacy_policy?.header_bg}
-        title={showingTranslateValue(
-          storeCustomizationSetting?.privacy_policy?.title
-        )}
+        title="Privacy Policy"
       />
-      <div className="bg-white">
-        <div className="max-w-screen-2xl mx-auto lg:py-20 py-10 px-4 sm:px-10">
-          <CMSkeleton
-            html
-            count={15}
-            height={15}
-            error={error}
-            loading={loading}
-            data={storeCustomizationSetting?.privacy_policy?.description}
-          />
-          <br />
-          <CMSkeleton count={15} height={15} loading={loading} />
-          <br />
-          <CMSkeleton count={15} height={15} loading={loading} />
-          {/* <div className="mb-8 lg:mb-12 last:mb-0">
-            <h2 className="text-xl xl:text-2xl xl:leading-7 font-semibold font-serif mb-2 lg:mb-4">
-              {t("common:privacy-policy-consent")}
-            </h2>
-            <div className="font-sans leading-7">
-              <p>{t("common:privacy-policy-consent-docs")}</p>
-            </div>
-          </div>
-          <div className="mb-8 lg:mb-12 last:mb-0">
-            <h2 className="text-xl xl:text-2xl xl:leading-7 font-semibold font-serif mb-2 lg:mb-4">
-              {t("common:privacy-policy-information")}
-            </h2>
-            <div className="font-sans leading-7">
-              <p>{t("common:privacy-policy-information-docs1")}</p>
-              <p>{t("common:privacy-policy-information-docs2")}</p>
-            </div>
-          </div>
-          <div className="mb-8 lg:mb-12 last:mb-0">
-            <h2 className="text-xl xl:text-2xl xl:leading-7 font-semibold font-serif mb-2 lg:mb-4">
-              {t("common:privacy-policy-use-information")}
-            </h2>
-            <div className="font-sans leading-7">
-              <p>{t("common:privacy-policy-use-information-docs")}</p>
+      <div className="bg-white py-10">
+        <div className="max-w-screen-lg mx-auto px-4 sm:px-6 lg:px-8">
+          {/* <h2 className="text-3xl font-bold mb-6 text-center">
+            Privacy Policy
+          </h2> */}
+          <b>Last Updated September 18 2024</b>
+          <p className="mb-8">
+            At ABH, we are committed to protecting the privacy and security of
+            our users. This Privacy Policy outlines how we collect, use, and
+            protect personal information from manufacturers, wholesalers,
+            retailers, and drop-shippers on our platform. By using ABH, you
+            agree to the terms of this policy.
+          </p>
 
-              <ol>
-                <li>{t("common:privacy-policy-use-information-docs1")}</li>
-                <li>{t("common:privacy-policy-use-information-docs2")}</li>
-                <li>{t("common:privacy-policy-use-information-docs3")}</li>
-                <li>{t("common:privacy-policy-use-information-docs4")}</li>
-                <li>{t("common:privacy-policy-use-information-docs5")}</li>
-                <li>{t("common:privacy-policy-use-information-docs6")}</li>
-                <li>{t("common:privacy-policy-use-information-docs7")}</li>
+          {/* Information We Collect Section */}
+          <section className="mb-10">
+            <h3 className="text-2xl font-bold mb-4">Information We Collect</h3>
+            <div className="mb-4">
+              <h4 className="text-xl font-semibold">For Manufacturers:</h4>
+              <ol className="list-decimal ml-6 mb-4">
+                <li className="mb-2">
+                  <strong>Business Information:</strong> We collect your company
+                  name, business registration details, product catalogs, and
+                  certifications to verify your legitimacy on the platform.
+                </li>
+                <li className="mb-2">
+                  <strong>Contact Information:</strong> This includes your email
+                  address, phone number, and physical address to facilitate
+                  communication and logistics.
+                </li>
+                <li className="mb-2">
+                  <strong>Financial Information:</strong> Payment details,
+                  including bank account information, for secure transactions
+                  and payouts.
+                </li>
+                <li className="mb-2">
+                  <strong>Marketing Preferences:</strong> Information on how you
+                  wish to be contacted for marketing, promotional activities, or
+                  collaboration opportunities.
+                </li>
+                <li className="mb-2">
+                  <strong>Usage Data:</strong> We track how you interact with
+                  the platform to improve your experience.
+                </li>
               </ol>
             </div>
-          </div>
-          <div className="mb-8 lg:mb-12 last:mb-0">
-            <h2 className="text-xl xl:text-2xl xl:leading-7 font-semibold font-serif mb-2 lg:mb-4">
-              {t("common:privacy-policy-log-file")}
-            </h2>
-            <div className="font-sans leading-7">
-              <p>{t("common:privacy-policy-log-file-docs")}</p>
+
+            <div className="mb-4">
+              <h4 className="text-xl font-semibold">For Wholesalers:</h4>
+              <ol className="list-decimal ml-6 mb-4">
+                <li className="mb-2">
+                  <strong>Business Credentials:</strong> Your business name,
+                  license number, and contact information for verification
+                  purposes.
+                </li>
+                <li className="mb-2">
+                  <strong>Order History:</strong> Records of your transactions,
+                  including bulk purchases, to help with order management and
+                  customer service.
+                </li>
+                <li className="mb-2">
+                  <strong>Financial Information:</strong> Payment methods and
+                  transaction details for processing orders and refunds.
+                </li>
+                <li className="mb-2">
+                  <strong>Inventory Data:</strong> Information on your stock
+                  levels and order management preferences to facilitate smooth
+                  business operations.
+                </li>
+                <li className="mb-2">
+                  <strong>Communication Preferences:</strong> How you prefer to
+                  receive notifications and updates.
+                </li>
+              </ol>
             </div>
-          </div>
-          <div className="mb-8 lg:mb-12 last:mb-0">
-            <h2 className="text-xl xl:text-2xl xl:leading-7 font-semibold font-serif mb-2 lg:mb-4">
-              {t("common:privacy-policy-advertising")}
-            </h2>
-            <div className="font-sans leading-7">
-              <p>{t("common:privacy-policy-advertising-docs")}</p>
+
+            <div className="mb-4">
+              <h4 className="text-xl font-semibold">For Retailers:</h4>
+              <ol className="list-decimal ml-6 mb-4">
+                <li className="mb-2">
+                  <strong>Personal and Business Information:</strong> Your name,
+                  store name, and contact details for account creation and
+                  verification.
+                </li>
+                <li className="mb-2">
+                  <strong>Order and Purchase Data:</strong> Details of your
+                  orders and purchase history for account management and
+                  customer service.
+                </li>
+                <li className="mb-2">
+                  <strong>Financial Information:</strong> Payment details for
+                  transactions on the platform.
+                </li>
+                <li className="mb-2">
+                  <strong>Marketing Preferences:</strong> Information on how you
+                  would like to receive promotional offers.
+                </li>
+                <li className="mb-2">
+                  <strong>Communication Data:</strong> Records of your
+                  communications with suppliers and customers.
+                </li>
+              </ol>
             </div>
-          </div>
-          <div className="mb-8 lg:mb-12 last:mb-0">
-            <h2 className="text-xl xl:text-2xl xl:leading-7 font-semibold font-serif mb-2 lg:mb-4">
-              {t("common:privacy-policy-third-party")}
-            </h2>
-            <div className="font-sans leading-7">
-              <p>{t("common:privacy-policy-third-party-docs1")}</p>
-              <p>{t("common:privacy-policy-third-party-docs2")}</p>
+
+            <div className="mb-4">
+              <h4 className="text-xl font-semibold">For Drop-shippers:</h4>
+              <ol className="list-decimal ml-6 mb-4">
+                <li className="mb-2">
+                  <strong>Account Information:</strong> Your name, contact
+                  details, and business information.
+                </li>
+                <li className="mb-2">
+                  <strong>Order Data:</strong> Information on orders placed
+                  through the platform.
+                </li>
+                <li className="mb-2">
+                  <strong>Financial Information:</strong> Payment details,
+                  including how you pay suppliers and receive payments.
+                </li>
+                <li className="mb-2">
+                  <strong>Shipping and Logistics Data:</strong> Information on
+                  your preferred logistics providers.
+                </li>
+                <li className="mb-2">
+                  <strong>Customer Communication:</strong> Data related to your
+                  interactions with customers.
+                </li>
+              </ol>
             </div>
-          </div>
-          <div className="mb-8 lg:mb-12 last:mb-0">
-            <h2 className="text-xl xl:text-2xl xl:leading-7 font-semibold font-serif mb-2 lg:mb-4">
-              {t("common:privacy-policy-ccpa-rights")}
-            </h2>
-            <div className="font-sans leading-7">
-              <p>{t("common:privacy-policy-ccpa-rights-docs")}</p>
-            </div>
-          </div>
-          <div className="mb-8 lg:mb-12 last:mb-0">
-            <h2 className="text-xl xl:text-2xl xl:leading-7 font-semibold font-serif mb-2 lg:mb-4">
-              {t("common:privacy-policy-children-information")}
-            </h2>
-            <div className="font-sans leading-7">
-              <p>{t("common:privacy-policy-children-information-docs1")}</p>
-              <p>{t("common:privacy-policy-children-information-docs2")}</p>
-            </div>
-          </div> */}
+          </section>
+
+          {/* How We Use Your Information Section */}
+          <section className="mb-10">
+            <h3 className="text-2xl font-bold mb-4">
+              How We Use Your Information
+            </h3>
+            <p className="mb-4">
+              We use the information collected to provide services, verify
+              legitimacy, and improve platform experiences. Specific uses may
+              include:
+            </p>
+            {/* Continue adding the sub-sections for Manufacturers, Wholesalers, Retailers, and Drop-shippers */}
+          </section>
+
+          {/* Continue adding other sections like "How We Share Your Information" */}
         </div>
       </div>
     </Layout>

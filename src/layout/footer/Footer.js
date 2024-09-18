@@ -53,15 +53,7 @@ const Footer = () => {
               </li>
               <li className="flex items-baseline">
                 <Link
-                  href="#"
-                  className="text-gray-600 inline-block w-full hover:text-emerald-500"
-                >
-                  Careers
-                </Link>
-              </li>
-              <li className="flex items-baseline">
-                <Link
-                  href="#"
+                  href="/privacy-policy"
                   className="text-gray-600 inline-block w-full hover:text-emerald-500"
                 >
                   Privacy Policy
@@ -69,7 +61,7 @@ const Footer = () => {
               </li>
               <li className="flex items-baseline">
                 <Link
-                  href="#"
+                  href="/terms-and-conditions"
                   className="text-gray-600 inline-block w-full hover:text-emerald-500"
                 >
                   Terms & Conditions
@@ -117,7 +109,7 @@ const Footer = () => {
                   Home and Kitchen
                 </Link>
               </li>
-              <li className="flex items-baseline">
+              {/* <li className="flex items-baseline">
                 <Link
                   href="#"
                   className="text-gray-600 inline-block w-full hover:text-emerald-500"
@@ -132,7 +124,7 @@ const Footer = () => {
                 >
                   Sport and Outdoor
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -195,7 +187,7 @@ const Footer = () => {
                 />
               </div>
             </Link>
-            <p className="leading-7 font-sans text-sm text-gray-600 mt-3">
+            <p className="leading-7 font-sans text-sm text-gray-600">
               10 Havana Estate SARS Road, Port Harcourt, Nigeria
               <br />
               <span>Tel: 02.356.1666</span>

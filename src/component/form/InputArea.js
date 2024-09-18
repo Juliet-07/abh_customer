@@ -6,7 +6,7 @@ const InputArea = ({
   label,
   type,
   Icon,
-  register,
+  // register,
   value,
   autocomplete,
   placeholder,
@@ -24,9 +24,9 @@ const InputArea = ({
           </div>
         )}
         <input
-          {...register(`${name}`, {
-            required: `${label} is required!`,
-          })}
+          // {...register(`${name}`, {
+          //   required: `${label} is required!`,
+          // })}
           type={type}
           name={name}
           value={value}

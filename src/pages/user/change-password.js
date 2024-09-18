@@ -57,7 +57,8 @@ const ChangePassword = () => {
           storeCustomizationSetting?.dashboard?.change_password
         )}
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      {/* <form onSubmit={handleSubmit(onSubmit)}> */}
+      <form>
         <div className="md:grid-cols-6 md:gap-6">
           <div className="md:mt-0 md:col-span-2">
             <div className="lg:mt-6 bg-white">

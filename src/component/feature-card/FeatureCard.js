@@ -12,7 +12,7 @@ const FeatureCard = () => {
   const featurePromo = [
     {
       id: 1,
-      title: "Free Shipping From $500",
+      title: "Safe & Swift Delivery",
 
       icon: FiTruck,
     },
@@ -29,9 +29,7 @@ const FeatureCard = () => {
     },
     {
       id: 4,
-      title: showingTranslateValue(
-        storeCustomizationSetting?.footer?.offer_card
-      ),
+      title: "Latest Offer Upto 20% Off",
       icon: FiGift,
     },
   ];

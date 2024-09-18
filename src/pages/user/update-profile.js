@@ -81,14 +81,13 @@ const UpdateProfile = () => {
           <div className="md:col-span-1">
             <div className="px-4 sm:px-0">
               <h2 className="text-xl font-serif font-semibold mb-5">
-                {showingTranslateValue(
-                  storeCustomizationSetting?.dashboard?.update_profile
-                )}
+                Profile Settings
               </h2>
             </div>
           </div>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        {/* <form onSubmit={handleSubmit(onSubmit)}> */}
+        <form>
           <div className="mt-5 md:mt-0 md:col-span-2">
             <div className="bg-white space-y-6">
               <div>
@@ -107,14 +106,10 @@ const UpdateProfile = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <InputArea
                           register={register}
-                          label={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.full_name
-                          )}
+                          label="Full Name"
                           name="name"
                           type="text"
-                          placeholder={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.full_name
-                          )}
+                          placeholder="Full Name"
                         />
                         <Error errorName={errors.name} />
                       </div>
@@ -122,14 +117,10 @@ const UpdateProfile = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <InputArea
                           register={register}
-                          label={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.address
-                          )}
+                          label="Address"
                           name="address"
                           type="text"
-                          placeholder={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.address
-                          )}
+                          placeholder="Enter Address"
                         />
                         <Error errorName={errors.address} />
                       </div>
@@ -137,29 +128,20 @@ const UpdateProfile = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <InputArea
                           register={register}
-                          label={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.user_phone
-                          )}
+                          label="Phone Number"
                           name="phone"
                           type="tel"
-                          placeholder={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.user_phone
-                          )}
+                          placeholder="Enter Valid Phone Number"
                         />
                         <Error errorName={errors.phone} />
                       </div>
 
                       <div className="col-span-6 sm:col-span-3">
                         <InputArea
-                          register={register}
-                          label={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.user_email
-                          )}
+                          label="Email"
                           name="email"
                           type="email"
-                          placeholder={showingTranslateValue(
-                            storeCustomizationSetting?.dashboard?.user_email
-                          )}
+                          placeholder="Enter Valid Email"
                         />
                         <Error errorName={errors.email} />
                       </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { FiLock, FiMail } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
 
 //internal  import
 import Error from "@component/form/Error";
@@ -11,12 +11,13 @@ import InputArea from "@component/form/InputArea";
 import Label from "@component/form/Label";
 
 const Login = ({ setShowResetPassword, setModalOpen }) => {
+  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const { redirect } = router.query;
-  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { handleSubmit } = useForm();
+  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     email: "",
@@ -34,8 +35,10 @@ const Login = ({ setShowResetPassword, setModalOpen }) => {
     try {
       const user = await axios.post(`${apiURL}/user/login`, loginDetails);
       console.log(user, "confirm here");
-      let userDetail = user.data.data.accessToken
+      let userDetail = user.data.data.accessToken;
       localStorage.setItem("abhUserInfo", userDetail);
+      // router.push(redirect || "/checkout");
+      // router.push("/user/dashboard")
       if (redirect) {
         router.push("/checkout");
       } else {
@@ -84,7 +87,7 @@ const Login = ({ setShowResetPassword, setModalOpen }) => {
               <input
                 value={password}
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 onChange={handleChange}
                 className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none focus:border-[#359E52] h-11 md:h-12"
@@ -93,6 +96,16 @@ const Login = ({ setShowResetPassword, setModalOpen }) => {
                 <span className="text-gray-800 sm:text-base">
                   <FiLock />
                 </span>
+              </div>
+              <div
+                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <FiEyeOff className="text-gray-800" />
+                ) : (
+                  <FiEye className="text-gray-800" />
+                )}
               </div>
             </div>
             {/* <Error errorName={} /> */}
@@ -127,7 +140,6 @@ const Login = ({ setShowResetPassword, setModalOpen }) => {
               disabled={loading}
               type="submit"
               className="w-full text-center py-3 rounded bg-[#359E52] text-white hover:bg-[#359E52] transition-all focus:outline-none my-1"
-              // onClick={() => setLoading(!loading)}
             >
               Login
             </button>

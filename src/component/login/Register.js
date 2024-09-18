@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { FiLock, FiMail, FiPhoneCall, FiUser } from "react-icons/fi";
+import {
+  FiLock,
+  FiMail,
+  FiPhoneCall,
+  FiUser,
+  FiEye,
+  FiEyeOff,
+} from "react-icons/fi";
 import axios from "axios";
 
 //internal import
@@ -7,14 +14,12 @@ import Error from "@component/form/Error";
 import InputArea from "@component/form/InputArea";
 import useLoginSubmit from "@hooks/useLoginSubmit";
 import Label from "@component/form/Label";
-import { notifySuccess } from "@utils/toast";
-import { useRouter } from "next/router";
+import { notifyError, notifySuccess } from "@utils/toast";
 
 const Register = ({ setShowResetPassword, setModalOpen }) => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const { handleSubmit, submitHandler, register1, errors } =
     useLoginSubmit(setModalOpen);
 
@@ -37,25 +42,29 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
     setRegister({ ...register, [name]: value });
   };
 
-  const handleRegisteration = () => {
+  const handleRegisteration = async () => {
     setLoading(true);
     try {
-      axios
-        .post(`${apiURL}/user`, register)
-        // .then((res) => res.json())
-        .then((user) => {
-          console.log(user, "confirm here");
-          if (user.status === 201) {
-            notifySuccess("User Successfully created");
-            // router.push("/Login");
-          }
-          // if (user.status === "99") {
-          //   alert(user.message);
-          //   navigate("/");
-          // }
-        });
+      const user = await axios.post(`${apiURL}/user`, register);
+      if (user.status === 201) {
+        notifySuccess("User Successfully created");
+        setRegister(initialValues);
+        setModalOpen(true);
+      }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      if (error.response) {
+        const errorMessage = error.response.data.message || "An error occurred";
+        console.log("Error:", errorMessage);
+        notifyError(
+          errorMessage[0] || "Sorry! Unable to complete registration"
+        );
+      } else {
+        console.log("Error", error.message);
+        notifyError("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,7 +90,8 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type="text"
                 placeholder="First Name"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none h-11 md:h-12"
+                required
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">
@@ -102,7 +112,8 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type="text"
                 placeholder="Last Name"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none h-11 md:h-12"
+                required
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">
@@ -122,7 +133,8 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type="email"
                 placeholder="Email"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none h-11 md:h-12"
+                required
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">
@@ -143,7 +155,8 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type="text"
                 placeholder="Phone Number"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none h-11 md:h-12"
+                required
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">
@@ -161,15 +174,26 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
               <input
                 value={password}
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-[#359E52] h-11 md:h-12"
+                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none h-11 md:h-12"
+                required
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span className="text-gray-800 sm:text-base">
                   <FiLock />
                 </span>
+              </div>
+              <div
+                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <FiEyeOff className="text-gray-800" />
+                ) : (
+                  <FiEye className="text-gray-800" />
+                )}
               </div>
             </div>
 

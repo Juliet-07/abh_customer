@@ -17,7 +17,7 @@ const Faq = () => {
     <Layout title="FAQ" description="This is faq page">
       <PageHeader
         headerBg={storeCustomizationSetting?.faq?.header_bg}
-        title={showingTranslateValue(storeCustomizationSetting?.faq?.title)}
+        title="FAQS"
       />
       <div className="bg-white">
         <div className="max-w-screen-2xl mx-auto px-3 sm:px-10 py-10 lg:py-12">
@@ -35,11 +35,7 @@ const Faq = () => {
                 {({ open }) => (
                   <>
                     <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-base font-medium text-left text-gray-600 focus:text-emerald-500 bg-gray-50 hover:bg-emerald-50 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                      <span>
-                        {showingTranslateValue(
-                          storeCustomizationSetting?.faq?.faq_one
-                        )}
-                      </span>
+                      <span>How do I find reliable suppliers on ABH?</span>
                       <ChevronUpIcon
                         className={`${
                           open ? "transform rotate-180 text-emerald-500" : ""
@@ -47,9 +43,9 @@ const Faq = () => {
                       />
                     </Disclosure.Button>
                     <Disclosure.Panel className="px-4 pt-3 pb-8 text-sm leading-7 text-gray-500">
-                      {showingTranslateValue(
-                        storeCustomizationSetting?.faq?.description_one
-                      )}
+                      ABH verifies all suppliers, and you can browse through
+                      reviews, ratings, and certifications to choose reliable
+                      manufacturers and wholesalers for your store.
                     </Disclosure.Panel>
                   </>
                 )}
@@ -60,10 +56,7 @@ const Faq = () => {
                   <>
                     <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-base font-medium text-left text-gray-600 focus:text-emerald-500 bg-gray-50 hover:bg-emerald-50 rounded-lg focus:outline-none">
                       <span>
-                        {" "}
-                        {showingTranslateValue(
-                          storeCustomizationSetting?.faq?.faq_two
-                        )}
+                        What are the minimum order quantities for products?
                       </span>
                       <ChevronUpIcon
                         className={`${
@@ -72,9 +65,10 @@ const Faq = () => {
                       />
                     </Disclosure.Button>
                     <Disclosure.Panel className="px-4 pt-3 pb-8 text-sm leading-7 text-gray-500">
-                      {showingTranslateValue(
-                        storeCustomizationSetting?.faq?.description_two
-                      )}
+                      Minimum order quantities vary by supplier. Retail
+                      customers can view the details on each product listing and
+                      see suppliers' price range per unit product against
+                      volume.
                     </Disclosure.Panel>
                   </>
                 )}
@@ -84,12 +78,7 @@ const Faq = () => {
                 {({ open }) => (
                   <>
                     <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-base font-medium text-left text-gray-600 focus:text-emerald-500 bg-gray-50 hover:bg-emerald-50 rounded-lg focus:outline-none">
-                      <span>
-                        {" "}
-                        {showingTranslateValue(
-                          storeCustomizationSetting?.faq?.faq_three
-                        )}
-                      </span>
+                      <span>How can I manage my orders efficiently?</span>
                       <ChevronUpIcon
                         className={`${
                           open ? "transform rotate-180 text-emerald-500" : ""
@@ -97,9 +86,8 @@ const Faq = () => {
                       />
                     </Disclosure.Button>
                     <Disclosure.Panel className="px-4 pt-3 pb-8 text-sm leading-7 text-gray-500">
-                      {showingTranslateValue(
-                        storeCustomizationSetting?.faq?.description_three
-                      )}
+                      ABH offers an order management system that allows retail
+                      customers to track orders and manage inventory.
                     </Disclosure.Panel>
                   </>
                 )}
@@ -109,10 +97,7 @@ const Faq = () => {
                   <>
                     <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-base font-medium text-left text-gray-600 focus:text-emerald-500 bg-gray-50 hover:bg-emerald-50 rounded-lg focus:outline-none">
                       <span>
-                        {" "}
-                        {showingTranslateValue(
-                          storeCustomizationSetting?.faq?.faq_four
-                        )}
+                        What are the payment terms for retail customers?
                       </span>
                       <ChevronUpIcon
                         className={`${
@@ -121,9 +106,7 @@ const Faq = () => {
                       />
                     </Disclosure.Button>
                     <Disclosure.Panel className="px-4 pt-3 pb-8 text-sm leading-7 text-gray-500">
-                      {showingTranslateValue(
-                        storeCustomizationSetting?.faq?.description_four
-                      )}
+                      Payments are made before delivery.
                     </Disclosure.Panel>
                   </>
                 )}
@@ -132,11 +115,7 @@ const Faq = () => {
                 {({ open }) => (
                   <>
                     <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-base font-medium text-left text-gray-600 focus:text-emerald-500 bg-gray-50 hover:bg-emerald-50 rounded-lg focus:outline-none">
-                      <span>
-                        {showingTranslateValue(
-                          storeCustomizationSetting?.faq?.faq_five
-                        )}
-                      </span>
+                      <span>How can I market my retail store through ABH?</span>
                       <ChevronUpIcon
                         className={`${
                           open ? "transform rotate-180 text-emerald-500" : ""
@@ -144,80 +123,9 @@ const Faq = () => {
                       />
                     </Disclosure.Button>
                     <Disclosure.Panel className="px-4 pt-3 pb-8 text-sm leading-7 text-gray-500">
-                      {showingTranslateValue(
-                        storeCustomizationSetting?.faq?.description_five
-                      )}
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
-              <Disclosure as="div" className="mt-2">
-                {({ open }) => (
-                  <>
-                    <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-base font-medium text-left text-gray-600 focus:text-emerald-500 bg-gray-50 hover:bg-emerald-50 rounded-lg focus:outline-none">
-                      <span>
-                        {showingTranslateValue(
-                          storeCustomizationSetting?.faq?.faq_six
-                        )}
-                      </span>
-                      <ChevronUpIcon
-                        className={`${
-                          open ? "transform rotate-180 text-emerald-500" : ""
-                        } w-5 h-5 text-gray-500`}
-                      />
-                    </Disclosure.Button>
-                    <Disclosure.Panel className="px-4 pt-3 pb-8 text-sm leading-7 text-gray-500">
-                      {showingTranslateValue(
-                        storeCustomizationSetting?.faq?.description_six
-                      )}
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
-              <Disclosure>
-                {({ open }) => (
-                  <>
-                    <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-base font-medium text-left text-gray-600 focus:text-emerald-500 bg-gray-50 hover:bg-emerald-50 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                      <span>
-                        {" "}
-                        {showingTranslateValue(
-                          storeCustomizationSetting?.faq?.faq_seven
-                        )}
-                      </span>
-                      <ChevronUpIcon
-                        className={`${
-                          open ? "transform rotate-180 text-emerald-500" : ""
-                        } w-5 h-5 text-gray-500`}
-                      />
-                    </Disclosure.Button>
-                    <Disclosure.Panel className="px-4 pt-3 pb-8 text-sm leading-7 text-gray-500">
-                      {showingTranslateValue(
-                        storeCustomizationSetting?.faq?.description_seven
-                      )}
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
-
-              <Disclosure as="div" className="mt-2">
-                {({ open }) => (
-                  <>
-                    <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-base font-medium text-left text-gray-600 focus:text-emerald-500 bg-gray-50 hover:bg-emerald-50 rounded-lg focus:outline-none">
-                      <span>
-                        {showingTranslateValue(
-                          storeCustomizationSetting?.faq?.faq_eight
-                        )}
-                      </span>
-                      <ChevronUpIcon
-                        className={`${
-                          open ? "transform rotate-180 text-emerald-500" : ""
-                        } w-5 h-5 text-gray-500`}
-                      />
-                    </Disclosure.Button>
-                    <Disclosure.Panel className="px-4 pt-3 pb-8 text-sm leading-7 text-gray-500">
-                      {showingTranslateValue(
-                        storeCustomizationSetting?.faq?.description_eight
-                      )}
+                      ABH provides marketing tools, including targeted ads,
+                      product placement opportunities, and social media
+                      integration to help retailers reach a larger audience.
                     </Disclosure.Panel>
                   </>
                 )}
