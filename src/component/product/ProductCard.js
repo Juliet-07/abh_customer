@@ -116,7 +116,7 @@ const ProductCard = ({ product, attributes }) => {
           }}
           className="relative flex justify-center cursor-pointer pt-2 w-full h-44"
         >
-          <div className="relative w-full h-full p-3 flex items-center justify-center">
+          <div className="relative w-full h-[170px] p-3 flex items-center justify-center">
             {product.images[0] ? (
               <img
                 src={product.featured_image}
