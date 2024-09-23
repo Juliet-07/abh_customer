@@ -12,6 +12,8 @@ const withPWA = require("next-pwa")({
   disable: process.env.NODE_ENV === "development",
 });
 
+const isSourceMapEnabled = process.env.GENERATE_SOURCEMAP !== "false";
+
 module.exports = withPWA({
   reactStrictMode: true,
   eslint: {
@@ -61,6 +63,14 @@ module.exports = withPWA({
       "images.dashter.com",
       "adhproject.blob.core.windows.net",
     ],
+  },
+
+  webpack(config, { dev }) {
+    // Disable source maps in production if the env variable GENERATE_SOURCEMAP is false
+    if (!dev && !isSourceMapEnabled) {
+      config.devtool = false;
+    }
+    return config;
   },
 
   ...nextTranslate(),
