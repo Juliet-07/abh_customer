@@ -62,6 +62,7 @@ module.exports = withPWA({
       "",
       "images.dashter.com",
       "adhproject.blob.core.windows.net",
+      "abhfiles.blob.core.windows.net",
     ],
   },
 
