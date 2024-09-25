@@ -522,7 +522,7 @@ const Checkout = () => {
                     Total Cost
                     <span className="font-serif font-extrabold text-lg">
                       {currency}
-                      {parseFloat(totalCost).toFixed(2)}
+                      {parseFloat(totalCost).toLocaleString()}
                     </span>
                   </div>
                 </div>

@@ -46,7 +46,7 @@ const Cart = () => {
       </span>
       <span className="rounded-lg font-bold font-serif py-2 px-3 bg-white text-emerald-600">
         {currency}
-        {cartTotal.toFixed(2)}
+        {cartTotal.toLocaleString()}
         {/* {cartTotal} */}
       </span>
     </button>
