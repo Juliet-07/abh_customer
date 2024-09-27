@@ -63,15 +63,15 @@ const ContactUs = () => {
             <div className="flex">
               <FiBell size={20} />
               <p className="mx-4">Call us</p>
-              <p>123456789</p>
+              <p>+234 70 6113 1509</p>
             </div>
             <div className="flex">
               <FiMapPin size={20} />
               <p className="mx-4">location</p>
             </div>
             <div className="md:w-[343px] leading-10">
-              Boho One, Bridge Street West, Middlesbrough, North Yorkshire, TS2
-              1AE.561-4535 Nulla LA United States 96522.
+              10 Havana Estate SARS Road,
+              <br /> Port Harcourt, Nigeria
             </div>
           </div>
         </div>

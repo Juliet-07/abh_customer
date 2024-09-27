@@ -56,12 +56,12 @@ const pages = [
   },
   {
     title: "Bulk Purchase",
-    href: "#",
+    href: "https://wholesale.abhmarkets.com",
     icon: FiGift,
   },
   {
     title: "Sell on ABH",
-    href: "#",
+    href: "/vendor/signup",
     icon: FiShoppingBag,
   },
   // {

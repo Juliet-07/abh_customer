@@ -186,8 +186,9 @@ const NavbarPromo = () => {
                 </Link>
                 <Link
                   onClick={() => setIsLoading(!isLoading)}
-                  href="https://abh-bulk.vercel.app/"
+                  href="https://wholesale.abhmarkets.com/"
                   className="font-serif mx-4 py-2 text-sm font-medium hover:text-[#8DCB90]"
+                  target="_blank"
                 >
                   Bulk Purchase
                 </Link>

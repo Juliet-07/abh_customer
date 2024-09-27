@@ -50,7 +50,7 @@ const NavBarTop = () => {
             <span className="flex items-center">
               Call Us <FiPhoneCall className="mr-2" />
               <a href="#" className="font-bold text-emerald-500 ml-1">
-                +099949343
+                +2347061131509
               </a>
             </span>
             {/* <p>Logout</p> */}

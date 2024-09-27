@@ -19,6 +19,7 @@ import useGetSetting from "@hooks/useGetSetting";
 import { handleLogEvent } from "@utils/analytics";
 
 const Navbar = () => {
+  const token = localStorage.getItem("abhUserInfo");
   const [imageUrl, setImageUrl] = useState("");
   const [searchText, setSearchText] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
