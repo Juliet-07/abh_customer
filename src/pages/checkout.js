@@ -102,12 +102,7 @@ const Checkout = () => {
       const payload = {
         Origin: origin,
         Destination: state,
-        // Weight: items.reduce(
-        //   (total, item) => total + item.weight * item.quantity,
-        //   0
-        // ),
-        // Weight: totalWeight,
-        Weight: 10,
+        Weight: totalWeight,
         // OnforwardingTownID: String(townId),
         OnforwardingTownID: townId,
         // PickupType: "1",

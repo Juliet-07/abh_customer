@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 
 //internal import
 import Label from "@component/form/Label";
@@ -16,6 +17,8 @@ import useGetSetting from "@hooks/useGetSetting";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 
 const UpdateProfile = () => {
+  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const token = localStorage.getItem("abhUserInfo");
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const {
@@ -23,6 +26,7 @@ const UpdateProfile = () => {
   } = useContext(UserContext);
   const { storeCustomizationSetting } = useGetSetting();
   const { showingTranslateValue } = useUtilsFunction();
+  const [userData, setUserData] = useState({});
 
   const {
     register,
@@ -59,14 +63,29 @@ const UpdateProfile = () => {
   };
 
   useEffect(() => {
-    if (Cookies.get("userInfo")) {
-      const user = JSON.parse(Cookies.get("userInfo"));
-      setValue("name", user.name);
-      setValue("email", user.email);
-      setValue("address", user.address);
-      setValue("phone", user.phone);
-      setImageUrl(user.image);
-    }
+    const getUserData = () => {
+      axios
+        .get(`${apiURL}/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+        .then((response) => {
+          console.log(response.data.data, "User Info");
+          setUserData(response.data.data);
+          setValue("name", userData.firstName + " " + userData.lastName);
+          setValue("email", userData.email);
+          setValue("address", userData.address);
+          setValue("phone", userData.phone);
+          setImageUrl(userData.image);
+        })
+        .catch((error) => {
+          console.error("Error fetching vendors:", error);
+        });
+    };
+
+    getUserData();
   }, []);
 
   return (
@@ -89,14 +108,14 @@ const UpdateProfile = () => {
         {/* <form onSubmit={handleSubmit(onSubmit)}> */}
         <form>
           <div className="mt-5 md:mt-0 md:col-span-2">
-            <div className="bg-white space-y-6">
+            {/* <div className="bg-white space-y-6">
               <div>
                 <Label label="Photo" />
                 <div className="mt-1 flex items-center">
                   <Uploader imageUrl={imageUrl} setImageUrl={setImageUrl} />
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="mt-10 sm:mt-0">
               <div className="md:grid-cols-6 md:gap-6">
@@ -106,10 +125,11 @@ const UpdateProfile = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <InputArea
                           register={register}
-                          label="Full Name"
+                          label="First Name"
                           name="name"
                           type="text"
                           placeholder="Full Name"
+                          value={userData.firstName}
                         />
                         <Error errorName={errors.name} />
                       </div>
@@ -117,13 +137,26 @@ const UpdateProfile = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <InputArea
                           register={register}
+                          label="Last Name"
+                          name="address"
+                          type="text"
+                          placeholder="Enter Address"
+                          value={userData.lastName}
+                        />
+                        <Error errorName={errors.address} />
+                      </div>
+
+                      {/* <div className="col-span-6 sm:col-span-3">
+                        <InputArea
+                          register={register}
                           label="Address"
                           name="address"
                           type="text"
                           placeholder="Enter Address"
+                          value={userData.firstName}
                         />
                         <Error errorName={errors.address} />
-                      </div>
+                      </div> */}
 
                       <div className="col-span-6 sm:col-span-3">
                         <InputArea
@@ -132,6 +165,7 @@ const UpdateProfile = () => {
                           name="phone"
                           type="tel"
                           placeholder="Enter Valid Phone Number"
+                          value={userData.phoneNumber}
                         />
                         <Error errorName={errors.phone} />
                       </div>
@@ -142,12 +176,13 @@ const UpdateProfile = () => {
                           name="email"
                           type="email"
                           placeholder="Enter Valid Email"
+                          value={userData.email}
                         />
                         <Error errorName={errors.email} />
                       </div>
                     </div>
                     <div className="col-span-6 sm:col-span-3 mt-5 text-right">
-                      {loading ? (
+                      {/* {loading ? (
                         <button
                           disabled={loading}
                           type="submit"
@@ -171,7 +206,14 @@ const UpdateProfile = () => {
                         >
                           Update
                         </button>
-                      )}
+                      )} */}
+                      <button
+                        // disabled={loading}
+                        type="button"
+                        className="md:text-sm leading-5 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-medium text-center justify-center border-0 border-transparent rounded-md placeholder-white focus-visible:outline-none focus:outline-none bg-emerald-500 text-white px-5 md:px-6 lg:px-8 py-2 md:py-3 lg:py-3 hover:text-white hover:bg-emerald-600 h-12 mt-1 text-sm lg:text-sm w-full sm:w-auto"
+                      >
+                        Edit
+                      </button>
                     </div>
                   </div>
                 </div>

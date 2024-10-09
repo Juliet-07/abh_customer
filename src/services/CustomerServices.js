@@ -1,16 +1,9 @@
 import requests from "./httpServices";
 
 const CustomerServices = {
-  // customerLogin: async (body) => {
-  //   return requests.post("/customer/login", body);
-  // },
 
   // verifyEmailAddress: async (body) => {
   //   return requests.post("/customer/verify-email", body);
-  // },
-
-  // registerCustomer: async (token, body) => {
-  //   return requests.post(`/customer/register/${token}`, body);
   // },
 
   // signUpWithProvider(token, body) {
@@ -33,7 +26,7 @@ const CustomerServices = {
   //   return requests.put(`/customer/${id}`, body);
   // },
 
-  // on-render-endpoints
+  // Abh-endpoints
   registerCustomer: async (body) => {
     return requests.post(`/user`, body);
   },
