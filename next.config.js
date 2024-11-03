@@ -66,13 +66,13 @@ module.exports = withPWA({
     ],
   },
 
-  // webpack(config, { dev }) {
-  //   // Disable source maps in production if the env variable GENERATE_SOURCEMAP is false
-  //   if (!dev && !isSourceMapEnabled) {
-  //     config.devtool = false;
-  //   }
-  //   return config;
-  // },
+  webpack(config, { dev }) {
+    // Disable source maps in production if the env variable GENERATE_SOURCEMAP is false
+    if (!dev && !isSourceMapEnabled) {
+      config.devtool = false;
+    }
+    return config;
+  },
 
   webpack: (config, { isServer }) => {
     if (isServer) {
