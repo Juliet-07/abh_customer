@@ -146,7 +146,8 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
                         query: { name: category.name }, // Add the category name as a query parameter
                       }}
                     >
-                      <div className="w-[100px] md:w-[270px] h-[130px] md:h-[270px] bg-[#CED9CF] flex flex-col items-center justify-center rounded md:rounded-lg">
+                      {/* <div className="w-[100px] md:w-[270px] h-[130px] md:h-[270px] bg-[#CED9CF] flex flex-col items-center justify-center rounded md:rounded-lg"> */}
+                      <div className="w-full h-full p-2 md:p-3 bg-[#CED9CF] flex flex-col items-center justify-center rounded md:rounded-lg">
                         <Image
                           width={211}
                           height={226}
@@ -163,7 +164,7 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
                           className="block md:hidden"
                           // priority
                         />
-                        <p className="text-xs md:text-base font-primarySemibold md:py-3">
+                        <p className="text-[10px] md:text-sm py-3 text-center font-primaryMedium">
                           {category.name}
                         </p>
                       </div>
