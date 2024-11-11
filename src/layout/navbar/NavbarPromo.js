@@ -197,6 +197,19 @@ const NavbarPromo = () => {
                     Bulk Purchase
                   </a>
                 </Link>
+                <Link
+                  onClick={() => setIsLoading(!isLoading)}
+                  href="https://dropshipping.abhmarkets.com/"
+                  legacyBehavior
+                >
+                  <a
+                    className="font-serif mx-4 py-2 text-sm font-medium hover:text-[#8DCB90]"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Dropshipping
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
