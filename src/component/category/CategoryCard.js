@@ -10,6 +10,7 @@ import {
 //internal import
 import { SidebarContext } from "@context/SidebarContext";
 import useUtilsFunction from "@hooks/useUtilsFunction";
+import Link from "next/link";
 
 const CategoryCard = ({ title, icon, nested, id }) => {
   const router = useRouter();
@@ -54,10 +55,17 @@ const CategoryCard = ({ title, icon, nested, id }) => {
 
   return (
     <>
-      <a
+      {/* <a
         onClick={() => showCategory(id, title)}
         className="p-2 flex items-center rounded-md hover:bg-gray-50 w-full hover:text-emerald-600"
         role="button"
+      > */}
+      <Link
+        href={{
+          pathname: `categories/${id}`,
+          query: { name: title }, // Add the category name as a query parameter
+        }}
+        className="p-2 flex items-center rounded-md hover:bg-gray-50 w-full hover:text-emerald-600"
       >
         {icon ? (
           <Image src={icon} width={18} height={18} alt="Category" />
@@ -78,7 +86,8 @@ const CategoryCard = ({ title, icon, nested, id }) => {
             </span>
           )}
         </div>
-      </a>
+      </Link>
+      {/* </a> */}
       {show && nested.length > 0 && (
         <ul className="pl-6 pb-3 pt-1 -mt-1">
           {nested.map((children) => (

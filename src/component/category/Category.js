@@ -73,8 +73,8 @@ const Category = () => {
             {categories.map((category, index) => (
               <CategoryCard
                 key={category._id}
-                id={category.id}
-                // icon={category?.image}
+                id={category._id}
+                icon={category?.image}
                 // nested={category?.subcategories}
                 title={category?.name}
               />
