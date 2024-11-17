@@ -43,7 +43,34 @@ const AllProducts = ({ popularProducts, discountProducts, attributes }) => {
     } else {
       setIsLoading(false);
     }
-    const getProducts = () => {
+
+    const getProducts = async () => {
+      try {
+        const allProducts = [];
+        let page = 1;
+        const limit = 10; // Assuming 10 is the default limit
+        let totalPages = 1; // Initialize with a default value
+
+        do {
+          const response = await axios.get(`${apiURL}/products/list/retail`, {
+            params: { page, limit },
+          });
+          const { products, totalPages: responseTotalPages } =
+            response.data.data;
+
+          allProducts.push(...products); // Add current page products to the list
+          totalPages = responseTotalPages; // Update the total number of pages from the response
+          page++; // Move to the next page
+        } while (page <= totalPages); // Continue until all pages are fetched
+
+        console.log(allProducts); // Combined list of all products
+        setProducts(allProducts); // Set the combined products list
+      } catch (error) {
+        console.error("Error fetching all products:", error);
+      }
+    };
+
+    const getProducts1 = () => {
       axios
         .get(`${apiURL}/products/list/retail`)
         .then((response) => {

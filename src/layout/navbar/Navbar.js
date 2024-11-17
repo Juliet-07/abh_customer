@@ -8,6 +8,7 @@ import { useCart } from "react-use-cart";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiShoppingCart, FiUser, FiBell } from "react-icons/fi";
 import useTranslation from "next-translate/useTranslation";
+import axios from "axios";
 
 //internal import
 import NavbarPromo from "@layout/navbar/NavbarPromo";
@@ -19,9 +20,12 @@ import useGetSetting from "@hooks/useGetSetting";
 import { handleLogEvent } from "@utils/analytics";
 
 const Navbar = () => {
+  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const token = localStorage.getItem("abhUserInfo");
   const [imageUrl, setImageUrl] = useState("");
+  const [products, setProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [searchList, setSearchList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const { toggleCartDrawer } = useContext(SidebarContext);
   const { totalItems } = useCart();
@@ -31,27 +35,67 @@ const Navbar = () => {
     state: { userInfo },
   } = useContext(UserContext);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // return;
-    if (searchText) {
-      router.push(`/search?query=${searchText}`, null, { scroll: false });
-      setSearchText("");
-      handleLogEvent("search", `searched ${searchText}`);
-    } else {
-      router.push(`/ `, null, { scroll: false });
-      setSearchText("");
-    }
-  };
-
   useEffect(() => {
     if (Cookies.get("userInfo")) {
       const user = JSON.parse(Cookies.get("userInfo"));
       setImageUrl(user.image);
     }
+    const getProducts = async () => {
+      try {
+        const allProducts = [];
+        let page = 1;
+        const limit = 10; // Assuming 10 is the default limit
+        let totalPages = 1; // Initialize with a default value
+
+        do {
+          const response = await axios.get(`${apiURL}/products/list/retail`, {
+            params: { page, limit },
+          });
+          const { products, totalPages: responseTotalPages } =
+            response.data.data;
+
+          allProducts.push(...products); // Add current page products to the list
+          totalPages = responseTotalPages; // Update the total number of pages from the response
+          page++; // Move to the next page
+        } while (page <= totalPages); // Continue until all pages are fetched
+
+        console.log(allProducts); // Combined list of all products
+        setProducts(allProducts); // Set the combined products list
+      } catch (error) {
+        console.error("Error fetching all products:", error);
+      }
+    };
+    getProducts();
   }, []);
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+
+    if (value.trim()) {
+      // Assuming each product has a 'name' property
+      const filtered = products.filter((item) =>
+        item.name.toLowerCase().includes(value.toLowerCase())
+      );
+      console.log(filtered, "checking search list");
+      setSearchList(filtered);
+    } else {
+      setSearchList([]);
+    }
+  };
+
+  // const handleSuggestionClick = (suggestion) => {
+  //   setSearchText(suggestion);
+  //   setSearchList([]);
+  // };
+
+  const handleSuggestionClick = (suggestion) => {
+    // Redirect to product page using the product id or slug
+    router.push(`/categories/${suggestion?.categoryId?._id}`); // Adjust URL based on your routing structure
+
+    setSearchText(suggestion.name); // Optional: Update the input with the selected suggestion
+    setSearchList([]); // Close the suggestion list
+  };
   return (
     <>
       <CartDrawer />
@@ -83,12 +127,13 @@ const Navbar = () => {
               <div className="w-full flex flex-col justify-center flex-shrink-0 relative z-30">
                 <div className="flex flex-col mx-auto w-full">
                   <form
-                    onSubmit={handleSubmit}
+                    // onSubmit={handleSubmit}
                     className="relative pr-12 md:pr-14 bg-white overflow-hidden shadow-sm rounded-md w-full"
                   >
                     <label className="flex items-center py-0.5">
                       <input
-                        onChange={(e) => setSearchText(e.target.value)}
+                        // onChange={(e) => setSearchText(e.target.value)}
+                        onChange={handleInputChange}
                         value={searchText}
                         className="form-input w-full pl-5 appearance-none transition ease-in-out border text-input text-sm font-sans rounded-md min-h-10 h-10 duration-200 bg-white focus:ring-0 outline-none border-none focus:outline-none placeholder-gray-500 placeholder-opacity-75"
                         placeholder="Search"
@@ -102,6 +147,19 @@ const Navbar = () => {
                       <IoSearchOutline />
                     </button>
                   </form>
+                  {searchList.length > 0 && (
+                    <ul className="absolute top-10 z-30 bg-white w-full max-h-64 overflow-y-auto shadow-lg rounded-md mt-1 border border-gray-200">
+                      {searchList.map((list, index) => (
+                        <li
+                          key={index}
+                          onClick={() => handleSuggestionClick(list)}
+                          className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                        >
+                          {list.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>

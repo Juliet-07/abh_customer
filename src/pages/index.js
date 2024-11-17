@@ -28,6 +28,7 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
   const { isLoading, setIsLoading } = useContext(SidebarContext);
   const { loading, error, storeCustomizationSetting } = useGetSetting();
   const [products, setProducts] = useState([]);
+  const [visibleProducts, setVisibleProducts] = useState(15);
   const [categories, setCategories] = useState([]);
 
   function scrollCategories(direction) {
@@ -59,21 +60,37 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
         });
     };
 
-    const getProducts = () => {
-      axios
-        .get(`${apiURL}/products/list/retail`)
-        .then((response) => {
-          console.log(response.data.data.products);
-          setProducts(response.data.data.products);
-        })
-        .catch((error) => {
-          console.error("Error fetching categories:", error);
-        });
+    const getProducts = async () => {
+      try {
+        const allProducts = [];
+        let page = 1;
+        const limit = 10; // Assuming 10 is the default limit
+        let totalPages = 1; // Initialize with a default value
+
+        do {
+          const response = await axios.get(`${apiURL}/products/list/retail`, {
+            params: { page, limit },
+          });
+          const { products, totalPages: responseTotalPages } =
+            response.data.data;
+
+          allProducts.push(...products); // Add current page products to the list
+          totalPages = responseTotalPages; // Update the total number of pages from the response
+          page++; // Move to the next page
+        } while (page <= totalPages); // Continue until all pages are fetched
+
+        console.log(allProducts); // Combined list of all products
+        setProducts(allProducts); // Set the combined products list
+      } catch (error) {
+        console.error("Error fetching all products:", error);
+      }
     };
 
     getCategories();
     getProducts();
   }, [router]);
+
+  // const showAllProducts = () => setVisibleProducts(products.length);
 
   return (
     <>
@@ -142,7 +159,7 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
                     <Link
                       // href={`categories/${category._id}`}
                       href={{
-                        pathname: `categories/${category._id}`,
+                        pathname: `/categories/${category._id}`,
                         query: { name: category.name }, // Add the category name as a query parameter
                       }}
                     >
@@ -232,7 +249,7 @@ const Home = ({ popularProducts, discountProducts, attributes }) => {
                     />
                   ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-2 md:gap-3 lg:gap-3">
-                      {products.map((product) => (
+                      {products.slice(0, visibleProducts).map((product) => (
                         <ProductCard
                           key={product._id}
                           product={product}
