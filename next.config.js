@@ -64,6 +64,7 @@ module.exports = withPWA({
       "adhproject.blob.core.windows.net",
       "abhfiles.blob.core.windows.net",
       "abhfilestorage.blob.core.windows.net",
+      "abhdocs.blob.core.windows.net",
     ],
   },
 
