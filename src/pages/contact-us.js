@@ -28,7 +28,7 @@ const ContactUs = () => {
     <Layout title="Contact Us" description="This is contact us page">
       {/* Hero section */}
       <div
-        className="w-full h-[400px] md:h-[632px] relative bg-cover md:px-10 2xl:px-20 md:flex items-center"
+        className="w-full h-[350px] md:h-[550px] relative bg-cover md:px-10 2xl:px-20 md:flex items-center"
         style={{
           backgroundImage: `url(${"../contact-hero.png"})`,
         }}

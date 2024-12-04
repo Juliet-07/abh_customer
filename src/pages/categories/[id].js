@@ -9,17 +9,19 @@ import Loading from "@component/preloader/Loading";
 const CategoryPage = ({ params }) => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
-  const categoryId = params.id;
-  const { name } = router.query;
+  const { id: categoryId, name } = router.query;
+  // const categoryId = params.id;
+  // const { name } = router.query;
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // if (!categoryId) return;
+    if (!categoryId) return;
 
     // Fetch products by category ID
     const fetchProductsByCategory = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           `${apiURL}/products/category/${categoryId}`
@@ -34,7 +36,7 @@ const CategoryPage = ({ params }) => {
     };
 
     fetchProductsByCategory();
-  }, [router]);
+  }, [categoryId]);
 
   return (
     <Layout>

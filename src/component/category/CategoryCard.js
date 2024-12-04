@@ -62,7 +62,7 @@ const CategoryCard = ({ title, icon, nested, id }) => {
       > */}
       <Link
         href={{
-          pathname: `categories/${id}`,
+          pathname: `/categories/${id}`,
           query: { name: title }, // Add the category name as a query parameter
         }}
         className="p-2 flex items-center rounded-md hover:bg-gray-50 w-full hover:text-emerald-600"

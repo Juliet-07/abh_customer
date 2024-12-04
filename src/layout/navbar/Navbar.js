@@ -1,4 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, Fragment } from "react";
+import { Popover, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/outline";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,6 +9,7 @@ import { useRouter } from "next/router";
 import { useCart } from "react-use-cart";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiShoppingCart, FiUser, FiBell } from "react-icons/fi";
+import { FaUserCircle } from "react-icons/fa";
 import useTranslation from "next-translate/useTranslation";
 import axios from "axios";
 
@@ -26,6 +29,10 @@ const Navbar = () => {
   const [products, setProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [searchList, setSearchList] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [value, setValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const { toggleCartDrawer } = useContext(SidebarContext);
   const { totalItems } = useCart();
@@ -96,6 +103,35 @@ const Navbar = () => {
     setSearchText(suggestion.name); // Optional: Update the input with the selected suggestion
     setSearchList([]); // Close the suggestion list
   };
+
+  useEffect(() => {
+    const getUserData = () => {
+      if (!token) {
+        console.log("No token found. User is not logged in.");
+        setIsLoggedIn(false);
+        return; // Exit the function if there's no token.
+      }
+
+      axios
+        .get(`${apiURL}/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+        .then((response) => {
+          console.log(response.data.data, "User Info");
+          setUserData(response.data.data); // Set user data in the state
+          setIsLoggedIn(true);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    };
+
+    getUserData();
+  }, []);
+
   return (
     <>
       <CartDrawer />
@@ -182,30 +218,69 @@ const Navbar = () => {
               </button>
               {/* Profile */}
               <button
-                className="pl-5 text-white text-2xl font-bold"
+                className="text-white font-primaryMedium"
                 aria-label="Login"
               >
-                {imageUrl || userInfo?.image ? (
-                  <Link
-                    href="/user/dashboard"
-                    className="relative top-1 w-6 h-6"
-                  >
-                    <Image
-                      width={29}
-                      height={29}
-                      src={imageUrl || userInfo?.image}
-                      alt="user"
-                      className="bg-white rounded-full"
+                {isLoggedIn ? (
+                  <div className="flex items-center justify-between">
+                    <FaUserCircle
+                      size={24}
+                      style={{ cursor: "pointer" }}
+                      // onClick={() => setShowDropdown(!showDropdown)}
                     />
-                  </Link>
-                ) : userInfo?.name ? (
-                  <Link
-                    href="/user/dashboard"
-                    className="leading-none font-bold font-serif block"
-                  >
-                    {userInfo?.name[0]}
-                  </Link>
+                    <span className="p-2">{userData?.firstName || "User"}</span>{" "}
+                  </div>
                 ) : (
+                  // <Popover className="relative font-serif">
+                  //   <Popover.Button className="group inline-flex items-center py-2 text-sm font-medium hover:text-emerald-600 focus:outline-none">
+                  //     <span className="text-sm">Hello {" "} {userData?.firstName}</span>
+                  //     <ChevronDownIcon
+                  //       className="ml-1 h-3 w-3"
+                  //       aria-hidden="true"
+                  //     />
+                  //   </Popover.Button>
+                  //   <Transition
+                  //     as={Fragment}
+                  //     enter="transition ease-out duration-200"
+                  //     enterFrom="opacity-0 translate-y-1"
+                  //     enterTo="opacity-100 translate-y-0"
+                  //     leave="transition ease-in duration-150"
+                  //     leaveFrom="opacity-100 translate-y-0"
+                  //     leaveTo="opacity-0 translate-y-1"
+                  //   >
+                  //     <Popover.Panel className="absolute z-10 -ml-1 mt-1 transform w-screen max-w-xs bg-white">
+                  //       <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-y-scroll flex-grow scrollbar-hide w-full h-full">
+                  //         <div className="relative grid gap-2 px-6 py-6">
+                  //           <span className="p-2  font-serif items-center rounded-md hover:bg-gray-50 w-full hover:text-emerald-600">
+                  //             <div className="w-full flex">
+                  //               {/* <FiShoppingBag className="my-auto" /> */}
+                  //               <Link
+                  //                 href="/contact-us"
+                  //                 onClick={() => setIsLoading(!isLoading)}
+                  //                 className="relative inline-flex items-center font-serif ml-2 py-0 rounded text-sm font-medium  hover:text-emerald-600"
+                  //               >
+                  //                 Contact Us
+                  //               </Link>
+                  //             </div>
+                  //           </span>
+
+                  //           <span className="p-2 font-serif items-center rounded-md hover:bg-gray-50 w-full hover:text-emerald-600">
+                  //             <div className="w-full flex">
+                  //               {/* <FiHelpCircle className="my-auto" /> */}
+                  //               <Link
+                  //                 href="/faq"
+                  //                 onClick={() => setIsLoading(!isLoading)}
+                  //                 className="relative inline-flex items-center font-serif ml-2 py-0 rounded text-sm font-medium  hover:text-emerald-600"
+                  //               >
+                  //                 FAQ
+                  //               </Link>
+                  //             </div>
+                  //           </span>
+                  //         </div>
+                  //       </div>
+                  //     </Popover.Panel>
+                  //   </Transition>
+                  // </Popover>
                   <div
                     className="flex items-center"
                     onClick={() => setModalOpen(!modalOpen)}
