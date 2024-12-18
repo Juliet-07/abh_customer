@@ -2,9 +2,109 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { notifyError, notifySuccess } from "@utils/toast";
 
 const Signup = ({ title, description, children }) => {
+  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [loading, setLoading] = useState(false);
+  const { handleSubmit } = useForm();
+  const [docx, setDocx] = useState({});
+
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    store: "",
+    address: "",
+    country: "",
+    city: "",
+    state: "",
+    email: "",
+    phoneNumber: "",
+    alternatePhoneNumber: "",
+    businessType: "",
+    nationalIdentificationNumber: "",
+    taxIdentificationNumber: "",
+    cacRegistrationNumber: "",
+  };
+
+  const [createVendorDetails, setCreateVendorDetails] = useState(initialValues);
+
+  const {
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    store,
+    country,
+    state,
+    city,
+    address,
+    alternatePhoneNumber,
+    businessType,
+    nationalIdentificationNumber,
+    taxIdentificationNumber,
+    cacRegistrationNumber,
+  } = createVendorDetails;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCreateVendorDetails({ ...createVendorDetails, [name]: value });
+  };
+
+  const handleFileUpload = (e) => {
+    console.log(e.target.files);
+    const docx = e.target.files[0];
+    setDocx(docx);
+  };
+
+  const handleCreateVendor = () => {
+    setLoading(true);
+    const url = `${apiURL}/vendors`;
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("email", email);
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("store", store);
+    formData.append("country", country);
+    formData.append("state", state);
+    formData.append("city", city);
+    formData.append("address", address);
+    formData.append("alternatePhoneNumber", alternatePhoneNumber);
+    formData.append("businessType", businessType);
+    formData.append(
+      "nationalIdentificationNumber",
+      nationalIdentificationNumber
+    );
+    formData.append("taxIdentificationNumber", taxIdentificationNumber);
+    formData.append("cacRegistrationNumber", cacRegistrationNumber);
+    formData.append("cacCertificate", docx);
+    axios
+      .post(url, formData, {
+        headers: {
+          // Authorization: `Bearer ${token}`,
+          "Content-type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        if (response.status === 201) {
+          notifySuccess("Vendor Data sent successfully!");
+          alert("Vendor Data sent successfully!");
+          setCreateVendorDetails(initialValues);
+          setDocx({});
+        }
+        console.log(response, "response from creating data");
+      })
+      .catch((error) => {
+        console.error("There was an error creating the vendor!", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <>
       <Head>
@@ -40,7 +140,7 @@ const Signup = ({ title, description, children }) => {
             </Link>
           </div>
           <form
-            // onSubmit={handleSubmit(handleCreateVendor)}
+            onSubmit={handleSubmit(handleCreateVendor)}
             className="w-full md:w-[70%] font-primaryRegular text-[#0C1415]"
           >
             <div className="flex flex-wrap -mx-3 mb-4">
@@ -53,8 +153,8 @@ const Signup = ({ title, description, children }) => {
                   type="text"
                   placeholder="Enter First Name"
                   name="firstName"
-                  // value={firstName}
-                  // onChange={handleChange}
+                  value={firstName}
+                  onChange={handleChange}
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
@@ -66,8 +166,8 @@ const Signup = ({ title, description, children }) => {
                   type="text"
                   placeholder="Enter Last Name"
                   name="lastName"
-                  // value={lastName}
-                  // onChange={handleChange}
+                  value={lastName}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -80,8 +180,8 @@ const Signup = ({ title, description, children }) => {
                 name="store"
                 className="w-full bg-white border border-[#C1C6C5] p-4 leading-tight focus:outline-none placeholder:text-[#C1C6C5]"
                 placeholder="CAC registered name"
-                // value={store}
-                // onChange={handleChange}
+                value={store}
+                onChange={handleChange}
               />
             </div>
             <div className="mb-4">
@@ -93,8 +193,8 @@ const Signup = ({ title, description, children }) => {
                 name="address"
                 className="w-full bg-white border border-[#C1C6C5] p-4 leading-tight focus:outline-none placeholder:text-[#C1C6C5]"
                 placeholder="Enter location here"
-                // value={address}
-                // onChange={handleChange}
+                value={address}
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-wrap -mx-3 mb-4">
@@ -111,8 +211,8 @@ const Signup = ({ title, description, children }) => {
                   type="text"
                   placeholder="Enter City"
                   name="city"
-                  // value={city}
-                  // onChange={handleChange}
+                  value={city}
+                  onChange={handleChange}
                 />
               </div>
               <div className="w-full md:w-1/3 px-3 mb-4 md:mb-2">
@@ -128,8 +228,8 @@ const Signup = ({ title, description, children }) => {
                   type="text"
                   placeholder="Enter State"
                   name="state"
-                  // value={state}
-                  // onChange={handleChange}
+                  value={state}
+                  onChange={handleChange}
                 />
               </div>
               <div className="w-full md:w-1/3 px-3">
@@ -145,8 +245,8 @@ const Signup = ({ title, description, children }) => {
                   type="text"
                   placeholder="Enter Country"
                   name="country"
-                  // value={country}
-                  // onChange={handleChange}
+                  value={country}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -164,8 +264,8 @@ const Signup = ({ title, description, children }) => {
                   type="text"
                   placeholder="Enter Phone Number"
                   name="phoneNumber"
-                  // value={phoneNumber}
-                  // onChange={handleChange}
+                  value={phoneNumber}
+                  onChange={handleChange}
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
@@ -180,8 +280,8 @@ const Signup = ({ title, description, children }) => {
                   id="grid-alt"
                   type="text"
                   name="alternatePhoneNumber"
-                  // value={alternatePhoneNumber}
-                  // onChange={handleChange}
+                  value={alternatePhoneNumber}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -194,8 +294,8 @@ const Signup = ({ title, description, children }) => {
                 name="email"
                 className="w-full bg-white border border-[#C1C6C5] p-4 leading-tight focus:outline-none placeholder:text-[#C1C6C5]"
                 placeholder="Input business email"
-                // value={email}
-                // onChange={handleChange}
+                value={email}
+                onChange={handleChange}
               />
             </div>
             <div className="mb-4">
@@ -207,8 +307,8 @@ const Signup = ({ title, description, children }) => {
                 name="businessType"
                 className="w-full bg-white border border-[#C1C6C5] p-4 leading-tight focus:outline-none placeholder:text-[#C1C6C5]"
                 placeholder="Ex: Fashion"
-                // value={businessType}
-                // onChange={handleChange}
+                value={businessType}
+                onChange={handleChange}
               />
             </div>
             <div className="mb-4">
@@ -220,8 +320,8 @@ const Signup = ({ title, description, children }) => {
                 name="nationalIdentificationNumber"
                 className="w-full bg-white border border-[#C1C6C5] p-4 leading-tight focus:outline-none placeholder:text-[#C1C6C5]"
                 placeholder="Input NIN"
-                // value={nationalIdentificationNumber}
-                // onChange={handleChange}
+                value={nationalIdentificationNumber}
+                onChange={handleChange}
               />
             </div>
             <div className="mb-4">
@@ -233,8 +333,8 @@ const Signup = ({ title, description, children }) => {
                 name="taxIdentificationNumber"
                 className="w-full bg-white border border-[#C1C6C5] p-4 leading-tight focus:outline-none placeholder:text-[#C1C6C5]"
                 placeholder="Input TIN"
-                // value={taxIdentificationNumber}
-                // onChange={handleChange}
+                value={taxIdentificationNumber}
+                onChange={handleChange}
               />
             </div>
             <div className="mb-4">
@@ -246,8 +346,8 @@ const Signup = ({ title, description, children }) => {
                 name="cacRegistrationNumber"
                 className="w-full bg-white border border-[#C1C6C5] p-4 leading-tight focus:outline-none placeholder:text-[#C1C6C5]"
                 placeholder="Input CAC Number"
-                // value={cacRegistrationNumber}
-                // onChange={handleChange}
+                value={cacRegistrationNumber}
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -257,11 +357,13 @@ const Signup = ({ title, description, children }) => {
               <input
                 type="file"
                 name="docx"
-                // onChange={handleFileUpload}
+                onChange={handleFileUpload}
                 multiple
                 className="px-3"
               />
-              <p className="text-red-500 text-xs mt-2">File must be a PDF less than 1 MB</p>
+               <p className="text-red-500 text-xs mt-2">
+                File must be less than 1 MB
+              </p>
             </div>
             <div className="w-full flex items-center justify-center my-6">
               <button

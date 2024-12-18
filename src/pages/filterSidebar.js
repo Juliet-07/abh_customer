@@ -85,12 +85,12 @@ const FilterSidebar = ({ setSelectedCategories }) => {
           Apply
         </button>
       </Accordion>
-      <Accordion title="Brand">
-        {/* <input
+      {/* <Accordion title="Brand">
+        <input
           type="text"
           placeholder="Search"
           className="w-full p-2 border rounded mb-2"
-        /> */}
+        />
         <ul className="grid gap-4">
           <li>
             <input type="checkbox" /> Adidas
@@ -105,7 +105,7 @@ const FilterSidebar = ({ setSelectedCategories }) => {
             <input type="checkbox" /> Cway
           </li>
         </ul>
-      </Accordion>
+      </Accordion> */}
       <Accordion title="Sizes">
         {/* <input
           type="text"

@@ -66,6 +66,7 @@ const CategoryCard = ({ title, icon, nested, id }) => {
           query: { name: title }, // Add the category name as a query parameter
         }}
         className="p-2 flex items-center rounded-md hover:bg-gray-50 w-full hover:text-emerald-600"
+        onClick={closeCategoryDrawer}
       >
         {icon ? (
           <Image src={icon} width={18} height={18} alt="Category" />
