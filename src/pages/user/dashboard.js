@@ -64,15 +64,15 @@ const Dashboard = ({ title, description, children }) => {
       icon: FiList,
     },
     {
-      title: "Update Profile",
+      title: "Profile",
       href: "/user/update-profile",
       icon: FiSettings,
     },
-    {
-      title: "Change Password",
-      href: "/user/change-password",
-      icon: FiFileText,
-    },
+    // {
+    //   title: "Change Password",
+    //   href: "/user/change-password",
+    //   icon: FiFileText,
+    // },
   ];
 
   useEffect(() => {

@@ -100,7 +100,7 @@ const UpdateProfile = () => {
           <div className="md:col-span-1">
             <div className="px-4 sm:px-0">
               <h2 className="text-xl font-serif font-semibold mb-5">
-                Profile Settings
+                Profile Info
               </h2>
             </div>
           </div>
@@ -207,13 +207,13 @@ const UpdateProfile = () => {
                           Update
                         </button>
                       )} */}
-                      <button
+                      {/* <button
                         // disabled={loading}
                         type="button"
                         className="md:text-sm leading-5 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-medium text-center justify-center border-0 border-transparent rounded-md placeholder-white focus-visible:outline-none focus:outline-none bg-emerald-500 text-white px-5 md:px-6 lg:px-8 py-2 md:py-3 lg:py-3 hover:text-white hover:bg-emerald-600 h-12 mt-1 text-sm lg:text-sm w-full sm:w-auto"
                       >
                         Edit
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>

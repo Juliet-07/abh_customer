@@ -92,10 +92,15 @@ const AllProducts = ({ popularProducts, discountProducts, attributes }) => {
   //   : products;
 
   const filteredProducts = products.filter((product) => {
-    // Match products by name with case-insensitive search
-    return product.name
+    const matchesSearchQuery = product.name
       ?.toLowerCase()
       .includes(searchQuery.trim().toLowerCase());
+
+    const matchesCategory =
+      selectedCategories.length === 0 ||
+      selectedCategories.includes(product.categoryId?.name);
+
+    return matchesSearchQuery && matchesCategory;
   });
 
   // Prioritize search results
@@ -161,9 +166,9 @@ const AllProducts = ({ popularProducts, discountProducts, attributes }) => {
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div className="md:text-xl font-primarySemibold">
                       All Products
-                      <span className="mx-2 font-primaryRegular text-xs">
+                      {/* <span className="mx-2 font-primaryRegular text-xs">
                         ( {sortedAndFilteredProducts.length} products found)
-                      </span>
+                      </span> */}
                     </div>
                     <div className="w-full md:w-1/2">
                       <input
@@ -181,7 +186,7 @@ const AllProducts = ({ popularProducts, discountProducts, attributes }) => {
                         options={sortingOptions}
                         value={sortOption}
                         onChange={handleSortChange}
-                        className="z-20"
+                        className="z-50"
                       />
                     </div>
                   </div>
@@ -194,8 +199,15 @@ const AllProducts = ({ popularProducts, discountProducts, attributes }) => {
                         error={error}
                         loading={loading}
                       />
+                    ) : sortedAndFilteredProducts.length === 0 ? (
+                      <div className="text-center py-10">
+                        <p className="text-lg font-primarySemibold text-gray-500">
+                          No products found. Try adjusting your search or
+                          filter.
+                        </p>
+                      </div>
                     ) : (
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-2 md:gap-3 lg:gap-3">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5  2xl:grid-cols-6 gap-2 md:gap-3 lg:gap-3">
                         {sortedAndFilteredProducts.map((product) => (
                           <ProductCard
                             key={product.id}

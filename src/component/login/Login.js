@@ -9,6 +9,7 @@ import Error from "@component/form/Error";
 import useLoginSubmit from "@hooks/useLoginSubmit";
 import InputArea from "@component/form/InputArea";
 import Label from "@component/form/Label";
+import { notifyError } from "@utils/toast";
 
 const Login = ({ setShowResetPassword, setModalOpen }) => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -45,7 +46,8 @@ const Login = ({ setShowResetPassword, setModalOpen }) => {
         router.push("/user/dashboard");
       }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      notifyError("Incorrect Login Details");
     }
   };
 
