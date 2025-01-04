@@ -69,7 +69,7 @@ const Category = () => {
         ) : data.length === 0 ? (
           <Loading loading={loading} />
         ) : (
-          <div className="relative grid gap-2 p-4">
+          <div className="relative grid gap-3 p-4 overflow-y-auto h-[40vh]">
             {categories.map((category, index) => (
               <CategoryCard
                 key={category._id}

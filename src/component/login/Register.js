@@ -57,7 +57,7 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
         const errorMessage = error.response.data.message || "An error occurred";
         console.log("Error:", errorMessage);
         notifyError(
-          errorMessage[0] || "Sorry! Unable to complete registration"
+          errorMessage || "Sorry! Unable to complete registration"
         );
       } else {
         console.log("Error", error.message);
