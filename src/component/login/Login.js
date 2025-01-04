@@ -47,7 +47,15 @@ const Login = ({ setShowResetPassword, setModalOpen }) => {
       }
     } catch (error) {
       setLoading(false);
-      notifyError("Incorrect Login Details");
+      if (error.response) {
+        const errorMessage = error.response.data.message || "An error occurred";
+        console.log("Error:", errorMessage);
+        notifyError(errorMessage || "Sorry! Unable to complete registration");
+      } else {
+        console.log("Error", error.message);
+        notifyError("An unexpected error occurred. Please try again.");
+      }
+      // notifyError("Incorrect Login Details");
     }
   };
 
