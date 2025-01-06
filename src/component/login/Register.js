@@ -43,6 +43,17 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
   };
 
   const handleRegisteration = async () => {
+    // Password validation regex
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      notifyError(
+        "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character."
+      );
+      return;
+    }
+
     setLoading(true);
     try {
       const user = await axios.post(`${apiURL}/user`, register);
@@ -56,9 +67,7 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
       if (error.response) {
         const errorMessage = error.response.data.message || "An error occurred";
         console.log("Error:", errorMessage);
-        notifyError(
-          errorMessage || "Sorry! Unable to complete registration"
-        );
+        notifyError(errorMessage || "Sorry! Unable to complete registration");
       } else {
         console.log("Error", error.message);
         notifyError("An unexpected error occurred. Please try again.");
@@ -177,7 +186,9 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 onChange={handleChange}
-                className="py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none h-11 md:h-12"
+                className={`py-2 pl-10 pr-4 md:pr-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none h-11 md:h-12 ${
+                  errors.password ? "border-red-500" : ""
+                }`}
                 required
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -197,20 +208,19 @@ const Register = ({ setShowResetPassword, setModalOpen }) => {
               </div>
             </div>
 
-            <Error errorName={errors.password} />
+            {/* Helper text for password requirements */}
+            <p className="text-xs text-red-500 mt-2">
+              Password must be at least 8 characters long, include an uppercase
+              letter, one number, and one special character.
+            </p>
+
+            {/* Display an error message if password doesn't meet criteria */}
+            {errors.password && (
+              <Error errorName="Password must meet the specified criteria." />
+            )}
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex ms-auto">
-              {/* <button
-                type="button"
-                onClick={() => setShowResetPassword(true)}
-                className="text-end text-sm text-heading ps-3 underline hover:no-underline focus:outline-none"
-              >
-                Forgot password?
-              </button> */}
-            </div>
-          </div>
+          <div className="flex items-center justify-between"></div>
           {loading ? (
             <button
               disabled={loading}

@@ -50,7 +50,7 @@ const Login = ({ setShowResetPassword, setModalOpen }) => {
       if (error.response) {
         const errorMessage = error.response.data.message || "An error occurred";
         console.log("Error:", errorMessage);
-        notifyError(errorMessage || "Sorry! Unable to complete registration");
+        notifyError("Incorrect email or password! Please confirm that your details are correct");
       } else {
         console.log("Error", error.message);
         notifyError("An unexpected error occurred. Please try again.");
