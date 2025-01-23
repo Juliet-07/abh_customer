@@ -38,7 +38,8 @@ const Checkout = () => {
   const [reference, setReference] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
-  const [townId, setTownId] = useState("");
+  const [town, setTown] = useState("");
+  const [townID, setTownId] = useState("");
   // Calculate the cart total using sellingPrice instead of price
   const cartTotal = useMemo(() => {
     return items.reduce((total, item) => {
@@ -90,6 +91,7 @@ const Checkout = () => {
     console.log({ data });
     setState(data.state);
     setCity(data.cityName);
+    setTown(data.town);
     setTownId(data.townId);
     console.log(city, "checking state");
   }, []);
@@ -104,7 +106,7 @@ const Checkout = () => {
         Destination: state,
         Weight: totalWeight,
         // OnforwardingTownID: String(townId),
-        OnforwardingTownID: townId,
+        OnforwardingTownID: townID,
         // PickupType: "1",
       };
       console.log(payload);
@@ -181,7 +183,8 @@ const Checkout = () => {
         street: street,
         city: city,
         state: state,
-        country: country,
+        town: town,
+        townId: townID,
       },
       shippingFee: shippingCost,
       shippingMethod: logisticsGateway,

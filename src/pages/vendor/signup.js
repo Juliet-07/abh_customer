@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { notifyError, notifySuccess } from "@utils/toast";
+import DropdownComponent from "@pages/state-selection";
 
 const Signup = ({ title, description, children }) => {
   const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [loading, setLoading] = useState(false);
   const { handleSubmit } = useForm();
   const [docx, setDocx] = useState({});
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [town, setTown] = useState("");
+  const [townId, setTownId] = useState("");
 
   const initialValues = {
     firstName: "",
@@ -38,8 +43,8 @@ const Signup = ({ title, description, children }) => {
     phoneNumber,
     store,
     country,
-    state,
-    city,
+    // state,
+    // city,
     address,
     alternatePhoneNumber,
     businessType,
@@ -59,9 +64,19 @@ const Signup = ({ title, description, children }) => {
     setDocx(docx);
   };
 
+  const handleStateInfo = useCallback((data) => {
+    console.log({ data });
+    setState(data.state);
+    setCity(data.cityName);
+    setTown(data.town);
+    setTownId(data.townId);
+    console.log(city, "checking state");
+  }, []);
+
   const handleCreateVendor = () => {
     setLoading(true);
     const url = `${apiURL}/vendors`;
+    
     const formData = new FormData();
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
@@ -71,6 +86,8 @@ const Signup = ({ title, description, children }) => {
     formData.append("country", country);
     formData.append("state", state);
     formData.append("city", city);
+    formData.append("town", town);
+    formData.append("townId", townId);
     formData.append("address", address);
     formData.append("alternatePhoneNumber", alternatePhoneNumber);
     formData.append("businessType", businessType);
@@ -81,6 +98,10 @@ const Signup = ({ title, description, children }) => {
     formData.append("taxIdentificationNumber", taxIdentificationNumber);
     formData.append("cacRegistrationNumber", cacRegistrationNumber);
     formData.append("cacCertificate", docx);
+    formData.append("accountName", "");
+    formData.append("accountNumber", "");
+    formData.append("bankName", "");
+
     axios
       .post(url, formData, {
         headers: {
@@ -94,11 +115,18 @@ const Signup = ({ title, description, children }) => {
           alert("Vendor Data sent successfully!");
           setCreateVendorDetails(initialValues);
           setDocx({});
+          setState("");
+          setCity("");
+          setTown("");
         }
         console.log(response, "response from creating data");
       })
       .catch((error) => {
-        console.error("There was an error creating the vendor!", error);
+        alert(
+          error.response?.data?.message ||
+            "An error occurred! File is too large"
+        );
+        console.error("Error details:", error.response?.data?.message);
       })
       .finally(() => {
         setLoading(false);
@@ -110,7 +138,7 @@ const Signup = ({ title, description, children }) => {
       <Head>
         <title>ABH Markets</title>
         {description && <meta name="description" content={description} />}
-        <link ref="icon" href="/favicon.png" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <div className="w-full flex flex-col md:flex-row p-4 md:p-0 overflow-auto">
         <Link href="/">
@@ -155,6 +183,7 @@ const Signup = ({ title, description, children }) => {
                   name="firstName"
                   value={firstName}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
@@ -168,6 +197,7 @@ const Signup = ({ title, description, children }) => {
                   name="lastName"
                   value={lastName}
                   onChange={handleChange}
+                  required
                 />
               </div>
             </div>
@@ -182,6 +212,7 @@ const Signup = ({ title, description, children }) => {
                 placeholder="CAC registered name"
                 value={store}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="mb-4">
@@ -195,9 +226,10 @@ const Signup = ({ title, description, children }) => {
                 placeholder="Enter location here"
                 value={address}
                 onChange={handleChange}
+                required
               />
             </div>
-            <div className="flex flex-wrap -mx-3 mb-4">
+            {/* <div className="flex flex-wrap -mx-3 mb-4">
               <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">
                 <label
                   className="tracking-wide font-medium mb-2"
@@ -213,6 +245,7 @@ const Signup = ({ title, description, children }) => {
                   name="city"
                   value={city}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div className="w-full md:w-1/3 px-3 mb-4 md:mb-2">
@@ -230,6 +263,7 @@ const Signup = ({ title, description, children }) => {
                   name="state"
                   value={state}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div className="w-full md:w-1/3 px-3">
@@ -247,9 +281,11 @@ const Signup = ({ title, description, children }) => {
                   name="country"
                   value={country}
                   onChange={handleChange}
+                  required
                 />
               </div>
-            </div>
+            </div> */}
+            <DropdownComponent onForm={handleStateInfo} />
             <div className="flex flex-wrap -mx-3 mb-4">
               <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
                 <label
@@ -266,6 +302,7 @@ const Signup = ({ title, description, children }) => {
                   name="phoneNumber"
                   value={phoneNumber}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
@@ -282,6 +319,7 @@ const Signup = ({ title, description, children }) => {
                   name="alternatePhoneNumber"
                   value={alternatePhoneNumber}
                   onChange={handleChange}
+                  required
                 />
               </div>
             </div>
@@ -296,6 +334,7 @@ const Signup = ({ title, description, children }) => {
                 placeholder="Input business email"
                 value={email}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="mb-4">
@@ -309,6 +348,7 @@ const Signup = ({ title, description, children }) => {
                 placeholder="Ex: Fashion"
                 value={businessType}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="mb-4">
@@ -322,6 +362,7 @@ const Signup = ({ title, description, children }) => {
                 placeholder="Input NIN"
                 value={nationalIdentificationNumber}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="mb-4">
@@ -335,6 +376,7 @@ const Signup = ({ title, description, children }) => {
                 placeholder="Input TIN"
                 value={taxIdentificationNumber}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="mb-4">
@@ -348,6 +390,7 @@ const Signup = ({ title, description, children }) => {
                 placeholder="Input CAC Number"
                 value={cacRegistrationNumber}
                 onChange={handleChange}
+                required
               />
             </div>
             <div>
@@ -361,7 +404,7 @@ const Signup = ({ title, description, children }) => {
                 multiple
                 className="px-3"
               />
-               <p className="text-red-500 text-xs mt-2">
+              <p className="text-red-500 text-xs mt-2">
                 File must be less than 1 MB
               </p>
             </div>
