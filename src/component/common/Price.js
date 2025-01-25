@@ -44,7 +44,7 @@ const Price = ({ product, price, card, currency, originalPrice }) => {
           >
             {currency}
             {/* {getNumberTwo(product?.sellingPrice)} */}
-            {product?.sellingPrice.toLocaleString()}
+            {(product?.sellingPrice ?? 0).toLocaleString()}
           </span>
           {originalPrice > price ? (
             <>
