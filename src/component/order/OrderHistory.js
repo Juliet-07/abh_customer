@@ -32,6 +32,9 @@ const OrderHistory = ({ order, currency }) => {
         {order.deliveryStatus === "PROCESSING" && (
           <span className="text-indigo-500">{order.deliveryStatus}</span>
         )}
+        {order.deliveryStatus === "SHIPPED" && (
+          <span className="text-violet-500">{order.deliveryStatus}</span>
+        )}
       </td>
       {/* <td className="px-5 py-3 leading-6 text-center whitespace-nowrap">
         <span className="text-sm font-bold">
