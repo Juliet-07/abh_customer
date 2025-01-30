@@ -103,7 +103,7 @@ const Checkout = () => {
     try {
       const payload = {
         Origin: origin,
-        Destination: state,
+        Destination: city,
         Weight: totalWeight,
         // OnforwardingTownID: String(townId),
         OnforwardingTownID: townID,
@@ -126,7 +126,7 @@ const Checkout = () => {
 
   const calculateTotalDeliveryFee = async () => {
     try {
-      let vendorOrigins = items.map((origin) => origin?.vendor?.state);
+      let vendorOrigins = items.map((origin) => origin?.vendor?.city);
       console.log(vendorOrigins, "places of the vendor");
 
       const uniqueOrigins = [...new Set(vendorOrigins)];
