@@ -26,13 +26,13 @@ const CartItem = ({ item, currency }) => {
         />
       </div>
       <div className="flex flex-col w-full overflow-hidden">
-        <Link
-          href={`/product/${item.slug}`}
+        <div
+          // href={`/product/${item.slug}`}
           onClick={closeCartDrawer}
           className="truncate text-sm font-medium text-gray-700 text-heading line-clamp-1"
         >
           {item.title}
-        </Link>
+        </div>
         <span className="text-xs text-gray-400 mb-1">
           Item Price ₦ {item.sellingPrice}
         </span>
