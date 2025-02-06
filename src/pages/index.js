@@ -166,7 +166,7 @@ const Home = ({ attributes }) => {
 
             {/* WhatsApp Sticky Button For User Support */}
             <a
-              href="https://wa.me/+2347068528399" // Replace with your WhatsApp number
+              href="https://wa.me/+2347061131509" // Replace with your WhatsApp number
               target="_blank"
               rel="noopener noreferrer"
               className="fixed bottom-20 md:bottom-5 right-5 bg-green-500 rounded-full p-3 shadow-lg cursor-pointer z-50"
