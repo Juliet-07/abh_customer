@@ -23,21 +23,43 @@ const CategoryPage = ({ params }) => {
   const [sortOption, setSortOption] = useState(sortingOptions[0]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    if (!categoryId) return;
+  // useEffect(() => {
+  //   if (!categoryId) return;
 
-    // Fetch products by category ID
+  //   // Fetch products by category ID
+  //   const fetchProductsByCategory = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axios.get(
+  //         `${apiURL}/products/category/${categoryId}`
+  //       );
+  //       console.log(response.data.data.products, "product by category");
+  //       setProducts(response.data.data.products);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setError("Error fetching products");
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchProductsByCategory();
+  // }, [categoryId]);
+
+  useEffect(() => {
     const fetchProductsByCategory = async () => {
       setLoading(true);
       try {
         const response = await axios.get(
           `${apiURL}/products/category/${categoryId}`
         );
-        console.log(response.data.data.products, "product by category");
-        setProducts(response.data.data.products);
-        setLoading(false);
+        const filteredProducts = response.data.data.products.filter(
+          (product) => product.productType === "RETAIL"
+        );
+        console.log(filteredProducts, "filtered products by category");
+        setProducts(filteredProducts);
       } catch (error) {
         setError("Error fetching products");
+      } finally {
         setLoading(false);
       }
     };
