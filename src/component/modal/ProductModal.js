@@ -94,6 +94,10 @@ const ProductModal = ({
             </div>
 
             <div className="w-full flex flex-col px-5 py-2 text-left">
+              <div className="mb-2">
+                <span className="font-primaryBold pr-2">ID:</span>
+                <span>{product?._id}</span>
+              </div>
               <div className="mb-2 md:mb-2.5 -mt-1.5 grid gap-3">
                 <div>
                   <h1

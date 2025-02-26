@@ -16,15 +16,15 @@ const DefaultSeo = () => {
     <NextSeo
       title={
         globalSetting?.meta_title ||
-        "KachaBazar - React Grocery & Organic Food Store e-commerce Template"
+        "ABH Markets - E-commerce store for all kinds of gadgets, beauty products and groceries"
       }
       openGraph={{
         type: "website",
         locale: "en_IE",
-        url: globalSetting?.meta_url || "https://kachabazar-store.vercel.app/",
+        url: globalSetting?.meta_url || "https://abhmarkets.com",
         site_name:
           globalSetting?.meta_title ||
-          "KachaBazar - React Grocery & Organic Food Store e-commerce Template",
+          "ABH Markets - E-commerce store for all kinds of gadgets, beauty products and groceries",
       }}
       twitter={{
         handle: "@handle",
